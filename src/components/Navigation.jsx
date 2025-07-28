@@ -24,10 +24,10 @@ const Navigation = () => {
   }, []);
   
   const menuItems = [
-    { key: 'problem', label: 'The Problem', href: '#problem' },
-    { key: 'how-it-works', label: 'How It Works', href: '#how-it-works' },
-    { key: 'tokenomics', label: 'Tokenomics', href: '#tokenomics' },
-    { key: 'community', label: 'Community', href: '#community' },
+    { key: 'problem', label: 'The Problem', href: 'https://www.vericred.app/#problem', external: true },
+    { key: 'how-it-works', label: 'How It Works', href: 'https://www.vericred.app/#how-it-works', external: true },
+    { key: 'tokenomics', label: 'Tokenomics', href: 'https://www.vericred.app/#tokenomics', external: true },
+    { key: 'community', label: 'Community', href: 'https://www.vericred.app/community', external: true },
     { key: 'website', label: 'Official Website', href: 'https://www.vericred.app', external: true },
   ];
   
