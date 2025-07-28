@@ -308,6 +308,11 @@ const CombinedPage = () => {
     });
   };
 
+  // 打开白皮书
+  const openWhitepaper = () => {
+    window.open('https://www.vericred.app/whitepaper', '_blank');
+  };
+
   // 处理推荐码输入
   const handleReferralSubmit = async () => {
     if (!isConnected) {
@@ -430,6 +435,7 @@ const CombinedPage = () => {
               <Button 
                 size="large"
                 icon={<FileTextOutlined />}
+                onClick={openWhitepaper}
                 style={{
                   height: '56px',
                   padding: '0 32px',
