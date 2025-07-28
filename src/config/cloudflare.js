@@ -3,7 +3,7 @@
 
 export const CLOUDFLARE_CONFIG = {
   // Cloudflare Worker URL - 请替换为你的实际 Worker URL
-  WORKER_URL: 'https://pub-5e932d7bfa034439848c665ded165ee2.r2.dev',
+  WORKER_URL: 'token-api-worker.wubs2005.workers.dev',
   
   // R2 存储桶名称
   BUCKET_NAME: 'token',
