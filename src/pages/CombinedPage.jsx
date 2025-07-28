@@ -463,8 +463,8 @@ const CombinedPage = () => {
                 background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))',
                 border: '1px solid rgba(56, 189, 248, 0.2)',
                 borderRadius: '16px',
-                padding: '2rem',
-                maxWidth: '700px',
+                padding: '2.5rem',
+                maxWidth: '900px',
                 margin: '0 auto',
                 backdropFilter: 'blur(10px)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
@@ -474,10 +474,14 @@ const CombinedPage = () => {
                 <Col xs={24} sm={8}>
                   <div style={{
                     textAlign: 'center',
-                    padding: '1.5rem',
+                    padding: '2rem',
                     background: 'rgba(56, 189, 248, 0.1)',
                     borderRadius: '12px',
-                    border: '1px solid rgba(56, 189, 248, 0.2)'
+                    border: '1px solid rgba(56, 189, 248, 0.2)',
+                    minHeight: '140px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
                   }}>
                     <WalletOutlined style={{ 
                       fontSize: '2rem', 
@@ -490,8 +494,8 @@ const CombinedPage = () => {
                     </div>
                     <div style={{ 
                       color: '#FFFFFF', 
-                      fontSize: '1rem', 
-                      fontWeight: '600',
+                      fontSize: '1.25rem', 
+                      fontWeight: 'bold',
                       fontFamily: 'monospace'
                     }}>
                       {`${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}
@@ -501,10 +505,14 @@ const CombinedPage = () => {
                 <Col xs={24} sm={8}>
                   <div style={{
                     textAlign: 'center',
-                    padding: '1.5rem',
+                    padding: '2rem',
                     background: 'rgba(56, 189, 248, 0.1)',
                     borderRadius: '12px',
-                    border: '1px solid rgba(56, 189, 248, 0.2)'
+                    border: '1px solid rgba(56, 189, 248, 0.2)',
+                    minHeight: '140px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
                   }}>
                     <GiftOutlined style={{ 
                       fontSize: '2rem', 
@@ -527,10 +535,14 @@ const CombinedPage = () => {
                 <Col xs={24} sm={8}>
                   <div style={{
                     textAlign: 'center',
-                    padding: '1.5rem',
+                    padding: '2rem',
                     background: 'rgba(56, 189, 248, 0.1)',
                     borderRadius: '12px',
-                    border: '1px solid rgba(56, 189, 248, 0.2)'
+                    border: '1px solid rgba(56, 189, 248, 0.2)',
+                    minHeight: '140px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center'
                   }}>
                     <UserAddOutlined style={{ 
                       fontSize: '2rem', 
