@@ -145,6 +145,15 @@ async function processReferral(env, referrerCode, newUserAddress, rewardAmount =
       };
     }
     
+    // 获取或创建被推荐人数据
+    let newUser = await getUserData(env, newUserAddress);
+    if (!newUser) {
+      newUser = createUserData(newUserAddress);
+    }
+    
+    // 给被推荐人增加奖励
+    newUser.tokenBalance += rewardAmount;
+    
     // 更新推荐人数据
     referrer.tokenBalance += rewardAmount;
     referrer.referralCount += 1;
@@ -158,9 +167,13 @@ async function processReferral(env, referrerCode, newUserAddress, rewardAmount =
     // 保存更新后的推荐人数据
     await saveUserData(env, referrer.walletAddress, referrer);
     
+    // 保存更新后的被推荐人数据
+    await saveUserData(env, newUserAddress, newUser);
+    
     return {
       success: true,
       referrerData: referrer,
+      newUserData: newUser,
       message: '推荐奖励发放成功'
     };
   } catch (error) {

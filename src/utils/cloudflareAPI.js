@@ -154,6 +154,15 @@ const processReferralLocalStorage = (referrerCode, newUserAddress) => {
       return { success: false, message: '已经被推荐过' };
     }
     
+    // 获取或创建被推荐人数据
+    if (!storedUsers[newUserAddress]) {
+      storedUsers[newUserAddress] = createUserData(newUserAddress);
+    }
+    
+    // 给被推荐人增加奖励
+    storedUsers[newUserAddress].tokenBalance += 200;
+    storedUsers[newUserAddress].lastUpdated = new Date().toISOString();
+    
     // 更新推荐人数据
     storedUsers[referrer].tokenBalance += 200;
     storedUsers[referrer].referralCount += 1;
@@ -170,6 +179,7 @@ const processReferralLocalStorage = (referrerCode, newUserAddress) => {
     return { 
       success: true, 
       referrerData: storedUsers[referrer],
+      newUserData: storedUsers[newUserAddress],
       message: '推荐奖励发放成功'
     };
   }
