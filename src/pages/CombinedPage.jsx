@@ -92,8 +92,10 @@ const CombinedPage = () => {
       enterReferralCode: 'Enter referral code',
       use: 'Use',
       referrerReward: 'Referrer will receive 200 VRC tokens',
-      
-
+      recentInvitedUsers: 'Recent Invited Users',
+      newUser: 'New User',
+      noInvitedUsers: 'No users invited yet',
+      shareToInvite: 'Share your referral link to start inviting friends!',
       
       // Community Section
       communityTitle: 'Join Our Community',
@@ -158,8 +160,10 @@ const CombinedPage = () => {
       enterReferralCode: '输入推荐码',
       use: '使用',
       referrerReward: '推荐人将获得200个VRC代币奖励',
-      
-
+      recentInvitedUsers: '最近邀请的用户',
+      newUser: '新用户',
+      noInvitedUsers: '还没有邀请任何用户',
+      shareToInvite: '分享你的推荐链接开始邀请朋友吧！',
       
       // Community Section
       communityTitle: '加入我们的社区',
@@ -224,8 +228,10 @@ const CombinedPage = () => {
       enterReferralCode: '輸入推薦碼',
       use: '使用',
       referrerReward: '推薦人將獲得200個VRC代幣獎勵',
-      
-
+      recentInvitedUsers: '最近邀請的用戶',
+      newUser: '新用戶',
+      noInvitedUsers: '還沒有邀請任何用戶',
+      shareToInvite: '分享你的推薦連結開始邀請朋友吧！',
       
       // Community Section
       communityTitle: '加入我們的社區',
@@ -1020,7 +1026,7 @@ const CombinedPage = () => {
                 >
                   <Title level={4} style={{ color: '#FFFFFF', marginBottom: '2rem' }}>
                     <UserAddOutlined style={{ marginRight: '0.5rem' }} />
-                    最近邀请的用户
+                    {t.recentInvitedUsers}
                   </Title>
                   
                   <div>
@@ -1070,7 +1076,7 @@ const CombinedPage = () => {
                                   {formatWalletAddress(address)}
                                 </Text>
                                 <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '2px' }}>
-                                  新用户
+                                  {t.newUser}
                                 </div>
                               </div>
                             </div>
@@ -1086,10 +1092,10 @@ const CombinedPage = () => {
                       <div style={{ textAlign: 'center', padding: '2rem 0' }}>
                         <UserAddOutlined style={{ fontSize: '3rem', color: '#475569', marginBottom: '1rem' }} />
                         <Paragraph style={{ color: '#94A3B8', margin: 0 }}>
-                          还没有邀请任何用户
+                          {t.noInvitedUsers}
                         </Paragraph>
                         <Paragraph style={{ color: '#64748B', fontSize: '0.875rem', margin: '0.5rem 0 0 0' }}>
-                          分享你的推荐链接开始邀请朋友吧！
+                          {t.shareToInvite}
                         </Paragraph>
                       </div>
                     )}
