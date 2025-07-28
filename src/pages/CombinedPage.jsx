@@ -452,58 +452,127 @@ const CombinedPage = () => {
               </Button>
             </Space>
           ) : (
-            <Card 
+            <div 
               style={{
-                background: 'rgba(15, 23, 42, 0.8)',
-                border: '1px solid rgba(56, 189, 248, 0.3)',
-                maxWidth: '600px',
-                margin: '0 auto'
+                background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))',
+                border: '1px solid rgba(56, 189, 248, 0.2)',
+                borderRadius: '16px',
+                padding: '2rem',
+                maxWidth: '700px',
+                margin: '0 auto',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
               }}
-              styles={{ body: { padding: '2rem' } }}
             >
-              <Row gutter={[16, 16]} style={{ marginBottom: '1.5rem' }}>
+              <Row gutter={[24, 24]} style={{ marginBottom: '2rem' }}>
                 <Col xs={24} sm={8}>
-                  <Statistic 
-                    title={<span style={{ color: '#94A3B8' }}>{t.walletAddress}</span>}
-                    value={`${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}
-                    prefix={<WalletOutlined style={{ color: '#38BDF8' }} />}
-                    valueStyle={{ color: '#FFFFFF', fontSize: '1rem' }}
-                  />
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '1.5rem',
+                    background: 'rgba(56, 189, 248, 0.1)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(56, 189, 248, 0.2)'
+                  }}>
+                    <WalletOutlined style={{ 
+                      fontSize: '2rem', 
+                      color: '#38BDF8', 
+                      marginBottom: '0.5rem',
+                      display: 'block'
+                    }} />
+                    <div style={{ color: '#94A3B8', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+                      {t.walletAddress}
+                    </div>
+                    <div style={{ 
+                      color: '#FFFFFF', 
+                      fontSize: '1rem', 
+                      fontWeight: '600',
+                      fontFamily: 'monospace'
+                    }}>
+                      {`${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}`}
+                    </div>
+                  </div>
                 </Col>
                 <Col xs={24} sm={8}>
-                  <Statistic 
-                    title={<span style={{ color: '#94A3B8' }}>{t.tokenBalance}</span>}
-                    value={tokenBalance}
-                    suffix="$VRC"
-                    prefix={<GiftOutlined style={{ color: '#38BDF8' }} />}
-                    valueStyle={{ color: '#38BDF8', fontSize: '1.25rem', fontWeight: 'bold' }}
-                  />
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '1.5rem',
+                    background: 'rgba(56, 189, 248, 0.1)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(56, 189, 248, 0.2)'
+                  }}>
+                    <GiftOutlined style={{ 
+                      fontSize: '2rem', 
+                      color: '#38BDF8', 
+                      marginBottom: '0.5rem',
+                      display: 'block'
+                    }} />
+                    <div style={{ color: '#94A3B8', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+                      {t.tokenBalance}
+                    </div>
+                    <div style={{ 
+                      color: '#38BDF8', 
+                      fontSize: '1.5rem', 
+                      fontWeight: 'bold'
+                    }}>
+                      {tokenBalance.toLocaleString()} $VRC
+                    </div>
+                  </div>
                 </Col>
                 <Col xs={24} sm={8}>
-                  <Statistic 
-                    title={<span style={{ color: '#94A3B8' }}>{t.referralCount}</span>}
-                    value={referralCount}
-                    prefix={<UserAddOutlined style={{ color: '#38BDF8' }} />}
-                    valueStyle={{ color: '#FFFFFF', fontSize: '1rem' }}
-                  />
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '1.5rem',
+                    background: 'rgba(56, 189, 248, 0.1)',
+                    borderRadius: '12px',
+                    border: '1px solid rgba(56, 189, 248, 0.2)'
+                  }}>
+                    <UserAddOutlined style={{ 
+                      fontSize: '2rem', 
+                      color: '#38BDF8', 
+                      marginBottom: '0.5rem',
+                      display: 'block'
+                    }} />
+                    <div style={{ color: '#94A3B8', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+                      {t.referredUsers}
+                    </div>
+                    <div style={{ 
+                      color: '#FFFFFF', 
+                      fontSize: '1.5rem', 
+                      fontWeight: 'bold'
+                    }}>
+                      {referralCount}
+                    </div>
+                  </div>
                 </Col>
               </Row>
               
-              <Space size="middle" wrap style={{ width: '100%', justifyContent: 'center' }}>
+              <div style={{ textAlign: 'center' }}>
                 <Button 
                   icon={<DisconnectOutlined />}
                   onClick={handleDisconnectWallet}
+                  size="large"
                   style={{
                     background: 'transparent',
-                    border: '1px solid #EF4444',
+                    border: '2px solid #EF4444',
                     color: '#EF4444',
-                    fontWeight: 600
+                    fontWeight: 600,
+                    borderRadius: '8px',
+                    padding: '0 2rem',
+                    height: '44px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = '#EF4444';
+                    e.target.style.color = '#FFFFFF';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = 'transparent';
+                    e.target.style.color = '#EF4444';
                   }}
                 >
                   {t.disconnect}
                 </Button>
-              </Space>
-            </Card>
+              </div>
+            </div>
           )}
         </div>
       </section>
