@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard';
 const { Title, Paragraph } = Typography;
 
 const Referral = () => {
-  const { walletAddress, tokenBalance, referralCode, referralCount } = useUser();
+  const { walletAddress, isConnected, tokenBalance, referralCode, referralCount } = useUser();
   const [copied, setCopied] = useState(false);
 
   // 生成完整的推广链接
@@ -52,7 +52,7 @@ const Referral = () => {
     }
   };
 
-  if (!walletAddress) {
+  if (!isConnected) {
     return (
       <div style={{ padding: '2rem' }}>
         <Card>

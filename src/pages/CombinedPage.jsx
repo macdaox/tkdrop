@@ -21,6 +21,7 @@ import {
 import Navigation from '../components/Navigation';
 import { useUser } from '../context/UserContext';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useWallet } from '../hooks/useWallet';
 import { useLocation } from 'react-router-dom';
 
 const { Title, Paragraph, Text } = Typography;
@@ -28,7 +29,7 @@ const { Title, Paragraph, Text } = Typography;
 const CombinedPage = () => {
   const { 
     walletAddress, 
-    setWalletAddress, 
+    isConnected,
     tokenBalance, 
     referralCode,
     referralCount,
@@ -38,8 +39,8 @@ const CombinedPage = () => {
     completeTask,
     updateTokenBalance
   } = useUser();
+  const { connectWallet, disconnectWallet, isConnecting } = useWallet();
   const location = useLocation();
-  const [isConnecting, setIsConnecting] = useState(false);
   const [referralInput, setReferralInput] = useState('');
   const { language } = useLanguage(); // 默认简体中文
 
@@ -256,51 +257,22 @@ const CombinedPage = () => {
     }
   }, [location]);
 
-  // 连接钱包
-  const connectWallet = async () => {
-    setIsConnecting(true);
+  // 处理钱包连接
+  const handleConnectWallet = async () => {
     try {
-      if (window.ethereum) {
-        try {
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const account = accounts[0];
-          setWalletAddress(account);
-          
-          await fetchUserData(account);
-          
-          // 处理待处理的推荐
-          const pendingRef = localStorage.getItem('pendingReferral');
-          if (pendingRef) {
-            const success = await processReferral(pendingRef);
-            if (success) {
-              message.success(t.referralSuccess);
-              // 推荐成功后，重新获取用户数据以确保数据一致性
-              await fetchUserData(account);
-            }
-            localStorage.removeItem('pendingReferral');
-          }
-          
-          message.success(t.walletConnected);
-        } catch (error) {
-          console.error('用户拒绝了连接请求', error);
-          message.error(t.connectionRejected);
-        }
-      } else {
-        message.error(t.installMetaMask);
-        window.open('https://metamask.io/download.html', '_blank');
+      await connectWallet();
+      if (walletAddress) {
+        message.success(t.walletConnected);
       }
     } catch (error) {
-      console.error('连接钱包时出错', error);
-      message.error('连接钱包失败');
-    } finally {
-      setIsConnecting(false);
+      console.error('连接钱包失败:', error);
+      message.error(t.connectionRejected);
     }
   };
 
-  // 断开钱包连接
-  const disconnectWallet = () => {
-    setWalletAddress('');
-    message.success(t.walletDisconnected);
+  // 处理钱包断开
+  const handleDisconnectWallet = () => {
+    disconnectWallet();
   };
 
   // 获取推广链接
@@ -334,7 +306,7 @@ const CombinedPage = () => {
 
   // 处理推荐码输入
   const handleReferralSubmit = async () => {
-    if (!walletAddress) {
+    if (!isConnected) {
       message.error(t.connectWalletFirst);
       return;
     }
@@ -357,7 +329,7 @@ const CombinedPage = () => {
 
   // 处理任务完成
   const handleTaskComplete = async (taskType, taskUrl, taskName, reward) => {
-    if (!walletAddress) {
+    if (!isConnected) {
       message.error(t.connectWalletFirst);
       return;
     }
@@ -433,14 +405,14 @@ const CombinedPage = () => {
             {t.heroDescription}
           </Paragraph>
           
-          {!walletAddress ? (
+          {!isConnected ? (
             <Space size="large" wrap>
               <Button 
                 type="primary" 
                 size="large"
                 icon={<WalletOutlined />}
                 loading={isConnecting}
-                onClick={connectWallet}
+                onClick={handleConnectWallet}
                 style={{
                   height: '56px',
                   padding: '0 32px',
@@ -516,7 +488,7 @@ const CombinedPage = () => {
               <Space size="middle" wrap style={{ width: '100%', justifyContent: 'center' }}>
                 <Button 
                   icon={<DisconnectOutlined />}
-                  onClick={disconnectWallet}
+                  onClick={handleDisconnectWallet}
                   style={{
                     background: 'transparent',
                     border: '1px solid #EF4444',
@@ -574,7 +546,7 @@ const CombinedPage = () => {
               <Button 
                 type="primary" 
                 size="small"
-                disabled={!walletAddress}
+                disabled={!isConnected}
                 onClick={() => handleTaskComplete('twitter', 'https://twitter.com/VeriCred', t.followTwitter, 50)}
               >
                 {t.completeTask}
@@ -612,7 +584,7 @@ const CombinedPage = () => {
               <Button 
                 type="primary" 
                 size="small"
-                disabled={!walletAddress}
+                disabled={!isConnected}
                 onClick={() => handleTaskComplete('discord', 'https://discord.gg/verichain', t.joinDiscord, 100)}
               >
                 {t.completeTask}
@@ -650,7 +622,7 @@ const CombinedPage = () => {
               <Button 
                 type="primary" 
                 size="small"
-                disabled={!walletAddress}
+                disabled={!isConnected}
                 onClick={() => handleTaskComplete('telegram', 'https://t.me/verichain', t.joinTelegram, 75)}
               >
                 {t.completeTask}
@@ -688,7 +660,7 @@ const CombinedPage = () => {
               <Button 
                 type="primary" 
                 size="small"
-                disabled={!walletAddress}
+                disabled={!isConnected}
                 onClick={() => {
                   const shareText = t.shareText;
                   const shareUrl = window.location.origin;
@@ -704,7 +676,7 @@ const CombinedPage = () => {
       </section>
 
       {/* Referral Link Section */}
-      {walletAddress && (
+      {isConnected && (
         <section id="referral-link" style={{ padding: '6rem 2rem', background: 'rgba(15, 23, 42, 0.5)' }}>
           <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
@@ -989,13 +961,13 @@ const CombinedPage = () => {
                 value={referralInput}
                 onChange={(e) => setReferralInput(e.target.value)}
                 style={{ height: '48px' }}
-                disabled={!walletAddress}
+                disabled={!isConnected}
               />
               <Button 
                 type="primary" 
                 onClick={handleReferralSubmit}
                 style={{ height: '48px', padding: '0 24px' }}
-                disabled={!walletAddress}
+                disabled={!isConnected}
               >
                 {t.use}
               </Button>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Button, Card, Row, Col, Statistic, message } from 'antd';
 import { WalletOutlined, ShareAltOutlined, GiftOutlined } from '@ant-design/icons';
 import { useUser } from '../context/UserContext';
+import { useWallet } from '../hooks/useWallet';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const { Title, Paragraph } = Typography;
@@ -9,15 +10,15 @@ const { Title, Paragraph } = Typography;
 const Home = () => {
   const { 
     walletAddress, 
-    setWalletAddress, 
+    isConnected, 
     tokenBalance, 
     referralCount,
     fetchUserData,
     processReferral 
   } = useUser();
+  const { connectWallet, isConnecting } = useWallet();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isConnecting, setIsConnecting] = useState(false);
 
   // 检查URL中是否有推荐码
   useEffect(() => {
@@ -28,45 +29,16 @@ const Home = () => {
     }
   }, [location]);
 
-  // 连接钱包
-  const connectWallet = async () => {
-    setIsConnecting(true);
+  // 处理钱包连接
+  const handleConnectWallet = async () => {
     try {
-      // 检查是否有MetaMask
-      if (window.ethereum) {
-        try {
-          // 请求账户访问
-          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-          const account = accounts[0];
-          setWalletAddress(account);
-          
-          // 获取用户数据
-          await fetchUserData(account);
-          
-          // 处理待处理的推荐
-          const pendingRef = localStorage.getItem('pendingReferral');
-          if (pendingRef) {
-            const success = await processReferral(pendingRef);
-            if (success) {
-              message.success('推荐奖励已处理！');
-            }
-            localStorage.removeItem('pendingReferral');
-          }
-          
-          message.success('钱包连接成功！');
-        } catch (error) {
-          console.error('用户拒绝了连接请求', error);
-          message.error('连接被拒绝');
-        }
-      } else {
-        message.error('请安装MetaMask钱包');
-        window.open('https://metamask.io/download.html', '_blank');
+      await connectWallet();
+      if (walletAddress) {
+        message.success('钱包连接成功！');
       }
     } catch (error) {
-      console.error('连接钱包时出错', error);
+      console.error('连接钱包失败:', error);
       message.error('连接钱包失败');
-    } finally {
-      setIsConnecting(false);
     }
   };
 
@@ -105,12 +77,12 @@ const Home = () => {
               </Col>
             </Row>
             
-            {!walletAddress ? (
+            {!isConnected ? (
               <Button 
                 type="primary" 
                 size="large" 
                 icon={<WalletOutlined />} 
-                onClick={connectWallet}
+                onClick={handleConnectWallet}
                 loading={isConnecting}
                 style={{ marginTop: '2rem' }}
               >
