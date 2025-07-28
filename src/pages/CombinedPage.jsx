@@ -34,6 +34,7 @@ const CombinedPage = () => {
     referralCode,
     referralCount,
     referralList,
+    taskStatus,
     fetchUserData,
     processReferral,
     completeTask,
@@ -109,7 +110,8 @@ const CombinedPage = () => {
       invalidReferralCode: 'Invalid referral code or already used',
       taskCompleted: 'task completed! Received',
       tokensReward: 'VRC tokens reward!',
-      taskAlreadyCompleted: 'Task already completed or failed'
+      taskAlreadyCompleted: 'Task already completed or failed',
+      completed: 'Completed'
     },
     'zh-CN': {
       // Page Title
@@ -173,7 +175,8 @@ const CombinedPage = () => {
       invalidReferralCode: '推荐码无效或已使用过',
       taskCompleted: '任务完成！获得',
       tokensReward: '个$VRC代币奖励！',
-      taskAlreadyCompleted: '任务已完成或完成失败'
+      taskAlreadyCompleted: '任务已完成或完成失败',
+      completed: '已完成'
     },
     'zh-TW': {
       // Page Title
@@ -237,7 +240,8 @@ const CombinedPage = () => {
       invalidReferralCode: '推薦碼無效或已使用過',
       taskCompleted: '任務完成！獲得',
       tokensReward: '個$VRC代幣獎勵！',
-      taskAlreadyCompleted: '任務已完成或完成失敗'
+      taskAlreadyCompleted: '任務已完成或完成失敗',
+      completed: '已完成'
     }
   };
 
@@ -544,12 +548,17 @@ const CombinedPage = () => {
                 <Text style={{ color: '#38BDF8', fontSize: '1.25rem', fontWeight: 'bold' }}>+50 $VRC</Text>
               </div>
               <Button 
-                type="primary" 
+                type={taskStatus.twitter ? "default" : "primary"}
                 size="small"
-                disabled={!isConnected}
+                disabled={!isConnected || taskStatus.twitter}
                 onClick={() => handleTaskComplete('twitter', 'https://twitter.com/VeriCred', t.followTwitter, 50)}
+                style={taskStatus.twitter ? {
+                  background: '#10B981',
+                  borderColor: '#10B981',
+                  color: '#FFFFFF'
+                } : {}}
               >
-                {t.completeTask}
+                {taskStatus.twitter ? t.completed : t.completeTask}
               </Button>
             </Card>
           </Col>
@@ -582,12 +591,17 @@ const CombinedPage = () => {
                 <Text style={{ color: '#38BDF8', fontSize: '1.25rem', fontWeight: 'bold' }}>+100 $VRC</Text>
               </div>
               <Button 
-                type="primary" 
+                type={taskStatus.discord ? "default" : "primary"}
                 size="small"
-                disabled={!isConnected}
+                disabled={!isConnected || taskStatus.discord}
                 onClick={() => handleTaskComplete('discord', 'https://discord.gg/verichain', t.joinDiscord, 100)}
+                style={taskStatus.discord ? {
+                  background: '#10B981',
+                  borderColor: '#10B981',
+                  color: '#FFFFFF'
+                } : {}}
               >
-                {t.completeTask}
+                {taskStatus.discord ? t.completed : t.completeTask}
               </Button>
             </Card>
           </Col>
@@ -620,12 +634,17 @@ const CombinedPage = () => {
                 <Text style={{ color: '#38BDF8', fontSize: '1.25rem', fontWeight: 'bold' }}>+75 $VRC</Text>
               </div>
               <Button 
-                type="primary" 
+                type={taskStatus.telegram ? "default" : "primary"}
                 size="small"
-                disabled={!isConnected}
+                disabled={!isConnected || taskStatus.telegram}
                 onClick={() => handleTaskComplete('telegram', 'https://t.me/verichain', t.joinTelegram, 75)}
+                style={taskStatus.telegram ? {
+                  background: '#10B981',
+                  borderColor: '#10B981',
+                  color: '#FFFFFF'
+                } : {}}
               >
-                {t.completeTask}
+                {taskStatus.telegram ? t.completed : t.completeTask}
               </Button>
             </Card>
           </Col>
@@ -658,17 +677,22 @@ const CombinedPage = () => {
                 <Text style={{ color: '#38BDF8', fontSize: '1.25rem', fontWeight: 'bold' }}>+25 $VRC</Text>
               </div>
               <Button 
-                type="primary" 
+                type={taskStatus.share ? "default" : "primary"}
                 size="small"
-                disabled={!isConnected}
+                disabled={!isConnected || taskStatus.share}
                 onClick={() => {
                   const shareText = t.shareText;
                   const shareUrl = window.location.origin;
                   const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
                   handleTaskComplete('share', twitterUrl, t.shareProject, 25);
                 }}
+                style={taskStatus.share ? {
+                  background: '#10B981',
+                  borderColor: '#10B981',
+                  color: '#FFFFFF'
+                } : {}}
               >
-                {t.completeTask}
+                {taskStatus.share ? t.completed : t.completeTask}
               </Button>
             </Card>
           </Col>

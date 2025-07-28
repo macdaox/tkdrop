@@ -10,6 +10,12 @@ export const UserProvider = ({ children }) => {
   const [referralCode, setReferralCode] = useState('');
   const [referralCount, setReferralCount] = useState(0);
   const [referralList, setReferralList] = useState([]);
+  const [taskStatus, setTaskStatus] = useState({
+    twitter: false,
+    discord: false,
+    telegram: false,
+    share: false
+  });
   
   // 生成推广码（简单使用钱包地址的最后8位）
   useEffect(() => {
@@ -28,6 +34,12 @@ export const UserProvider = ({ children }) => {
         setTokenBalance(userData.tokenBalance);
         setReferralCount(userData.referralCount);
         setReferralList(userData.referrals || []);
+        setTaskStatus(userData.tasks || {
+          twitter: false,
+          discord: false,
+          telegram: false,
+          share: false
+        });
       } catch (error) {
         console.error('定期刷新用户数据失败:', error);
       }
@@ -47,6 +59,12 @@ export const UserProvider = ({ children }) => {
       setReferralCode(userData.referralCode);
       setReferralCount(userData.referralCount);
       setReferralList(userData.referrals || []);
+      setTaskStatus(userData.tasks || {
+        twitter: false,
+        discord: false,
+        telegram: false,
+        share: false
+      });
       
       // 检查是否有待处理的推荐码
       const pendingReferral = localStorage.getItem('pendingReferral');
@@ -59,6 +77,12 @@ export const UserProvider = ({ children }) => {
             setTokenBalance(updatedUserData.tokenBalance);
             setReferralCount(updatedUserData.referralCount);
             setReferralList(updatedUserData.referrals || []);
+            setTaskStatus(updatedUserData.tasks || {
+              twitter: false,
+              discord: false,
+              telegram: false,
+              share: false
+            });
           }
         } catch (error) {
           console.error('处理待处理推荐码失败:', error);
@@ -82,6 +106,12 @@ export const UserProvider = ({ children }) => {
         setTokenBalance(result.userData.tokenBalance);
         setReferralCount(result.userData.referralCount);
         setReferralList(result.userData.referrals || []);
+        setTaskStatus(result.userData.tasks || {
+          twitter: false,
+          discord: false,
+          telegram: false,
+          share: false
+        });
         return true;
       }
       return false;
@@ -99,6 +129,12 @@ export const UserProvider = ({ children }) => {
       const result = await updateTaskStatus(address, taskType, true);
       if (result.success) {
         setTokenBalance(result.userData.tokenBalance);
+        setTaskStatus(result.userData.tasks || {
+          twitter: false,
+          discord: false,
+          telegram: false,
+          share: false
+        });
         return true;
       }
       return false;
@@ -117,6 +153,12 @@ export const UserProvider = ({ children }) => {
       setTokenBalance(userData.tokenBalance);
       setReferralCount(userData.referralCount);
       setReferralList(userData.referrals || []);
+      setTaskStatus(userData.tasks || {
+        twitter: false,
+        discord: false,
+        telegram: false,
+        share: false
+      });
     } catch (error) {
       console.error('更新代币余额失败:', error);
     }
@@ -139,6 +181,7 @@ export const UserProvider = ({ children }) => {
         referralCode,
         referralCount,
         referralList,
+        taskStatus,
         fetchUserData,
         processReferral,
         completeTask,
