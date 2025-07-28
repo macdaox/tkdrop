@@ -48,9 +48,9 @@ const CombinedPage = () => {
   const translations = {
     'en': {
       // Page Title
-      pageTitle: 'VeriChain - Skill Verification Protocol',
+      pageTitle: 'VeriCred - Skill Verification Protocol',
       // Hero Section
-      heroTitle: 'VeriChain - Skill Verification Protocol',
+      heroTitle: 'VeriCred - Skill Verification Protocol',
       heroSubtitle: 'The world\'s first blockchain-based personal skill and knowledge verification protocol. Connect your wallet to get 2000 $VRC tokens and start your skill verification journey.',
       connectWallet: 'Connect Wallet to Get 2000 $VRC',
       readWhitepaper: 'Read Whitepaper',
@@ -69,7 +69,7 @@ const CombinedPage = () => {
       joinTelegram: 'Join Telegram',
       joinTelegramDesc: 'Join our Telegram group to get real-time project information',
       shareProject: 'Share Project',
-      shareProjectDesc: 'Share VeriChain project on social media to help us grow',
+      shareProjectDesc: 'Share VeriCred project on social media to help us grow',
       completeTask: 'Complete Task',
       reward: 'Reward',
       
@@ -80,7 +80,7 @@ const CombinedPage = () => {
       copyReferralLink: 'Copy Referral Link',
       yourReferralCode: 'Your Referral Code',
       shareReferral: 'Share Referral Link',
-      shareDescription: 'Share your referral link on social media to let more people know about VeriChain',
+      shareDescription: 'Share your referral link on social media to let more people know about VeriCred',
       share: 'More Share',
       referralCodeSystem: 'Referral Code System',
       referralCodeDesc: 'Use your friend\'s referral code to help them earn 200 $VRC tokens',
@@ -112,9 +112,9 @@ const CombinedPage = () => {
     },
     'zh-CN': {
       // Page Title
-      pageTitle: 'VeriChain - 技能确权协议',
+      pageTitle: 'VeriCred - 技能确权协议',
       // Hero Section
-      heroTitle: 'VeriChain - 技能确权协议',
+      heroTitle: 'VeriCred - 技能确权协议',
       heroSubtitle: '全球首个基于区块链的个人技能与知识确权协议。连接钱包即可获得2000个$VRC代币，开启你的技能确权之旅。',
       connectWallet: '连接钱包获取2000个$VRC',
       readWhitepaper: '阅读白皮书',
@@ -133,7 +133,7 @@ const CombinedPage = () => {
       joinTelegram: '加入Telegram',
       joinTelegramDesc: '加入我们的Telegram群组，获取项目实时信息',
       shareProject: '分享项目',
-      shareProjectDesc: '在社交媒体上分享VeriChain项目，帮助我们成长',
+      shareProjectDesc: '在社交媒体上分享VeriCred项目，帮助我们成长',
       completeTask: '完成任务',
       reward: '奖励',
       
@@ -144,7 +144,7 @@ const CombinedPage = () => {
       copyReferralLink: '复制推广链接',
       yourReferralCode: '你的推荐码',
       shareReferral: '分享推广链接',
-      shareDescription: '通过社交媒体分享你的推广链接，让更多人了解VeriChain',
+      shareDescription: '通过社交媒体分享你的推广链接，让更多人了解VeriCred',
       share: '更多分享',
       referralCodeSystem: '推荐码系统',
       referralCodeDesc: '使用朋友的推荐码，帮助他们获得200个$VRC代币奖励',
@@ -176,9 +176,9 @@ const CombinedPage = () => {
     },
     'zh-TW': {
       // Page Title
-      pageTitle: 'VeriChain - 技能確權協議',
+      pageTitle: 'VeriCred - 技能確權協議',
       // Hero Section
-      heroTitle: 'VeriChain - 技能確權協議',
+      heroTitle: 'VeriCred - 技能確權協議',
       heroSubtitle: '全球首個基於區塊鏈的個人技能與知識確權協議。連接錢包即可獲得2000個$VRC代幣，開啟你的技能確權之旅。',
       connectWallet: '連接錢包獲取2000個$VRC',
       readWhitepaper: '閱讀白皮書',
@@ -197,7 +197,7 @@ const CombinedPage = () => {
       joinTelegram: '加入Telegram',
       joinTelegramDesc: '加入我們的Telegram群組，獲取項目實時信息',
       shareProject: '分享項目',
-      shareProjectDesc: '在社交媒體上分享VeriChain項目，幫助我們成長',
+      shareProjectDesc: '在社交媒體上分享VeriCred項目，幫助我們成長',
       completeTask: '完成任務',
       reward: '獎勵',
       
@@ -208,7 +208,7 @@ const CombinedPage = () => {
       copyReferralLink: '複製推廣連結',
       yourReferralCode: '你的推薦碼',
       shareReferral: '分享推廣連結',
-      shareDescription: '通過社交媒體分享你的推廣連結，讓更多人了解VeriChain',
+      shareDescription: '通過社交媒體分享你的推廣連結，讓更多人了解VeriCred',
       share: '更多分享',
       referralCodeSystem: '推薦碼系統',
       referralCodeDesc: '使用朋友的推薦碼，幫助他們獲得200個$VRC代幣獎勵',
@@ -575,7 +575,7 @@ const CombinedPage = () => {
                 type="primary" 
                 size="small"
                 disabled={!walletAddress}
-                onClick={() => handleTaskComplete('twitter', 'https://twitter.com/VeriChain', t.followTwitter, 50)}
+                onClick={() => handleTaskComplete('twitter', 'https://twitter.com/VeriCred', t.followTwitter, 50)}
               >
                 {t.completeTask}
               </Button>
@@ -831,7 +831,7 @@ const CombinedPage = () => {
                           onClick={() => {
                             if (navigator.share) {
                               navigator.share({
-                                title: 'VeriChain',
+                                title: 'VeriCred',
                                 text: t.shareText,
                                 url: getReferralLink()
                               });

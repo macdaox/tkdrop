@@ -72,7 +72,7 @@ const Navigation = () => {
             fontSize: '1.5rem'
           }}
         >
-          VeriChain
+          VeriCred
         </Title>
         
         {/* Desktop Menu */}
@@ -137,7 +137,7 @@ const Navigation = () => {
       
       {/* Mobile Drawer */}
       <Drawer
-        title="VeriChain"
+        title="VeriCred"
         placement="right"
         onClose={() => setMobileMenuVisible(false)}
         open={mobileMenuVisible}

@@ -21,7 +21,7 @@ const Footer = () => {
       borderTop: '1px solid rgba(56, 189, 248, 0.1)',
       fontFamily: 'Inter, sans-serif'
     }}>
-      VeriChain ©{new Date().getFullYear()} - {footerTexts[language]}
+      VeriCred ©{new Date().getFullYear()} - {footerTexts[language]}
     </AntFooter>
   );
 };
