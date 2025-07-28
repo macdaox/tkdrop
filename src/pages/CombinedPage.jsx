@@ -46,6 +46,8 @@ const CombinedPage = () => {
   // 多语言文本
   const translations = {
     'en': {
+      // Page Title
+      pageTitle: 'VeriChain - Skill Verification Protocol',
       // Hero Section
       heroTitle: 'VeriChain - Skill Verification Protocol',
       heroSubtitle: 'The world\'s first blockchain-based personal skill and knowledge verification protocol. Connect your wallet to get 2000 $VRC tokens and start your skill verification journey.',
@@ -108,6 +110,8 @@ const CombinedPage = () => {
       taskAlreadyCompleted: 'Task already completed or failed'
     },
     'zh-CN': {
+      // Page Title
+      pageTitle: 'VeriChain - 技能确权协议',
       // Hero Section
       heroTitle: 'VeriChain - 技能确权协议',
       heroSubtitle: '全球首个基于区块链的个人技能与知识确权协议。连接钱包即可获得2000个$VRC代币，开启你的技能确权之旅。',
@@ -170,6 +174,8 @@ const CombinedPage = () => {
       taskAlreadyCompleted: '任务已完成或完成失败'
     },
     'zh-TW': {
+      // Page Title
+      pageTitle: 'VeriChain - 技能確權協議',
       // Hero Section
       heroTitle: 'VeriChain - 技能確權協議',
       heroSubtitle: '全球首個基於區塊鏈的個人技能與知識確權協議。連接錢包即可獲得2000個$VRC代幣，開啟你的技能確權之旅。',
@@ -234,6 +240,11 @@ const CombinedPage = () => {
   };
 
   const t = translations[language];
+
+  // 动态更新页面标题
+  useEffect(() => {
+    document.title = t.pageTitle;
+  }, [language, t.pageTitle]);
 
   // 检查URL中是否有推荐码
   useEffect(() => {
