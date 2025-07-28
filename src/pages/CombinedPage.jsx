@@ -16,6 +16,7 @@ import {
   GiftOutlined,
   ShareAltOutlined,
   CopyOutlined,
+  CheckOutlined,
   UserAddOutlined
 } from '@ant-design/icons';
 import Navigation from '../components/Navigation';
@@ -43,6 +44,7 @@ const CombinedPage = () => {
   const { connectWallet, disconnectWallet, isConnecting } = useWallet();
   const location = useLocation();
   const [referralInput, setReferralInput] = useState('');
+  const [copySuccess, setCopySuccess] = useState(false);
   const { language } = useLanguage(); // 默认简体中文
 
 
@@ -104,6 +106,7 @@ const CombinedPage = () => {
       walletDisconnected: 'Wallet disconnected',
       linkCopied: 'Referral link copied to clipboard!',
       copyFailed: 'Copy failed, please copy manually',
+      copied: 'Copied',
       connectWalletFirst: 'Please connect wallet first',
       enterReferralCodeFirst: 'Please enter referral code',
       referralSuccess: 'Referral code used successfully! Referrer received 200 VRC tokens!',
@@ -169,6 +172,7 @@ const CombinedPage = () => {
       walletDisconnected: '钱包已断开连接',
       linkCopied: '推广链接已复制到剪贴板！',
       copyFailed: '复制失败，请手动复制',
+      copied: '已复制',
       connectWalletFirst: '请先连接钱包',
       enterReferralCodeFirst: '请输入推荐码',
       referralSuccess: '推荐码使用成功！推荐人获得200个VRC代币奖励！',
@@ -234,6 +238,7 @@ const CombinedPage = () => {
       walletDisconnected: '錢包已斷開連接',
       linkCopied: '推廣連結已複製到剪貼板！',
       copyFailed: '複製失敗，請手動複製',
+      copied: '已複製',
       connectWalletFirst: '請先連接錢包',
       enterReferralCodeFirst: '請輸入推薦碼',
       referralSuccess: '推薦碼使用成功！推薦人獲得200個VRC代幣獎勵！',
@@ -303,6 +308,9 @@ const CombinedPage = () => {
     const link = getReferralLink();
     navigator.clipboard.writeText(link).then(() => {
       message.success(t.linkCopied);
+      setCopySuccess(true);
+      // 3秒后重置状态
+      setTimeout(() => setCopySuccess(false), 3000);
     }).catch(() => {
       message.error(t.copyFailed);
     });
@@ -526,7 +534,7 @@ const CombinedPage = () => {
                     </div>
                     <div style={{ 
                       color: '#38BDF8', 
-                      fontSize: '1.5rem', 
+                      fontSize: '1.25rem', 
                       fontWeight: 'bold'
                     }}>
                       {tokenBalance.toLocaleString()} $VRC
@@ -556,7 +564,7 @@ const CombinedPage = () => {
                     </div>
                     <div style={{ 
                       color: '#FFFFFF', 
-                      fontSize: '1.5rem', 
+                      fontSize: '1.25rem', 
                       fontWeight: 'bold'
                     }}>
                       {referralCount}
@@ -565,31 +573,59 @@ const CombinedPage = () => {
                 </Col>
               </Row>
               
-              <div style={{ textAlign: 'center' }}>
-                <Button 
-                  icon={<DisconnectOutlined />}
-                  onClick={handleDisconnectWallet}
-                  size="large"
-                  style={{
-                    background: 'transparent',
-                    border: '2px solid #EF4444',
-                    color: '#EF4444',
-                    fontWeight: 600,
-                    borderRadius: '8px',
-                    padding: '0 2rem',
-                    height: '44px'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.background = '#EF4444';
-                    e.target.style.color = '#FFFFFF';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.background = 'transparent';
-                    e.target.style.color = '#EF4444';
-                  }}
-                >
-                  {t.disconnect}
-                </Button>
+              {/* 推荐码输入区域 */}
+              <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+                <Title level={5} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>
+                  {t.useReferralCode}
+                </Title>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+                  <div>
+                    <Space.Compact style={{ maxWidth: '400px', width: '100%' }}>
+                      <Input
+                        placeholder={t.enterReferralCode}
+                        value={referralInput}
+                        onChange={(e) => setReferralInput(e.target.value)}
+                        style={{ height: '40px' }}
+                        disabled={!isConnected}
+                      />
+                      <Button 
+                        type="primary" 
+                        onClick={handleReferralSubmit}
+                        style={{ height: '40px', padding: '0 20px' }}
+                        disabled={!isConnected}
+                      >
+                        {t.use}
+                      </Button>
+                    </Space.Compact>
+                    <Text style={{ color: '#94A3B8', fontSize: '0.875rem', display: 'block', marginTop: '0.5rem' }}>
+                      {t.referrerReward}
+                    </Text>
+                  </div>
+                  <Button 
+                    icon={<DisconnectOutlined />}
+                    onClick={handleDisconnectWallet}
+                    size="large"
+                    style={{
+                      background: 'transparent',
+                      border: '2px solid #EF4444',
+                      color: '#EF4444',
+                      fontWeight: 600,
+                      borderRadius: '8px',
+                      padding: '0 2rem',
+                      height: '44px'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = '#EF4444';
+                      e.target.style.color = '#FFFFFF';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = 'transparent';
+                      e.target.style.color = '#EF4444';
+                    }}
+                  >
+                    {t.disconnect}
+                  </Button>
+                </div>
               </div>
             </div>
           )}
@@ -836,9 +872,9 @@ const CombinedPage = () => {
                       </Text>
                     </div>
                     <Button 
-                      type="primary" 
+                      type={copySuccess ? "default" : "primary"}
                       size="large"
-                      icon={<CopyOutlined />}
+                      icon={copySuccess ? <CheckOutlined /> : <CopyOutlined />}
                       onClick={copyReferralLink}
                       style={{
                         height: '48px',
@@ -846,11 +882,14 @@ const CombinedPage = () => {
                         fontSize: '1rem',
                         fontWeight: 600,
                         width: '100%',
-                        marginBottom: '1rem'
+                        marginBottom: '1rem',
+                        background: copySuccess ? '#10B981' : undefined,
+                        borderColor: copySuccess ? '#10B981' : undefined,
+                        color: copySuccess ? '#FFFFFF' : undefined
                       }}
                     >
-                      {t.copyReferralLink}
-                    </Button>
+                        {copySuccess ? t.copied : t.copyReferralLink}
+                      </Button>
                     
                     {/* 分享按钮移到这里 */}
                     <div style={{ marginBottom: '1rem' }}>
@@ -1061,45 +1100,6 @@ const CombinedPage = () => {
           </div>
         </section>
       )}
-
-      {/* Referral Code Section */}
-      <section id="referral-code" style={{ padding: '6rem 2rem' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
-          <Title level={2} style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
-            {t.referralCodeSystem}
-          </Title>
-          <Paragraph style={{ fontSize: '1.125rem', color: '#94A3B8', maxWidth: '600px', margin: '0 auto 3rem auto' }}>
-            {t.referralCodeDesc}
-          </Paragraph>
-          
-          {/* 推荐码输入 */}
-          <div style={{ marginBottom: '3rem' }}>
-            <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1.5rem' }}>
-              {t.useReferralCode}
-            </Title>
-            <Space.Compact style={{ maxWidth: '400px', width: '100%' }}>
-              <Input
-                placeholder={t.enterReferralCode}
-                value={referralInput}
-                onChange={(e) => setReferralInput(e.target.value)}
-                style={{ height: '48px' }}
-                disabled={!isConnected}
-              />
-              <Button 
-                type="primary" 
-                onClick={handleReferralSubmit}
-                style={{ height: '48px', padding: '0 24px' }}
-                disabled={!isConnected}
-              >
-                {t.use}
-              </Button>
-            </Space.Compact>
-            <Text style={{ color: '#94A3B8', fontSize: '0.875rem', display: 'block', marginTop: '0.5rem' }}>
-              {t.referrerReward}
-            </Text>
-          </div>
-        </div>
-      </section>
 
 
       {/* Community Section */}
