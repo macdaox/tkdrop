@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R2 存储测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            background: #1890ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #40a9ff;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f6f6f6;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+        }
+        .error {
+            background: #fff2f0;
+            border: 1px solid #ffccc7;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cloudflare R2 存储测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 健康检查</h2>
+        <button onclick="testHealth()">测试 Worker 健康状态</button>
+        <div id="health-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 创建测试用户</h2>
+        <button onclick="createTestUser()">创建测试用户</button>
+        <div id="create-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. 获取用户数据</h2>
+        <button onclick="getTestUser()">获取测试用户数据</button>
+        <div id="get-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. 更新用户数据</h2>
+        <button onclick="updateTestUser()">更新测试用户数据</button>
+        <div id="update-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>5. 测试推荐功能</h2>
+        <button onclick="testReferral()">测试推荐奖励</button>
+        <div id="referral-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>6. 获取所有用户</h2>
+        <button onclick="getAllUsers()">获取所有用户数据</button>
+        <div id="all-users-result" class="result"></div>
+    </div>
+
+    <script>
+        const WORKER_URL = 'https://token-api-worker.wubs2005.workers.dev';
+        const TEST_ADDRESS = '0xTestAddress123456789';
+        const TEST_ADDRESS_2 = '0xTestAddress987654321';
+        
+        function showResult(elementId, data, isError = false) {
+            const element = document.getElementById(elementId);
+            element.textContent = JSON.stringify(data, null, 2);
+            element.className = isError ? 'result error' : 'result success';
+        }
+        
+        async function testHealth() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/health`);
+                const data = await response.json();
+                showResult('health-result', data);
+            } catch (error) {
+                showResult('health-result', { error: error.message }, true);
+            }
+        }
+        
+        async function createTestUser() {
+            try {
+                const userData = {
+                    walletAddress: TEST_ADDRESS,
+                    tokenBalance: 2000,
+                    referralCode: TEST_ADDRESS.slice(-8),
+                    referralCount: 0,
+                    referrals: [],
+                    tasks: {
+                        twitter: false,
+                        discord: false,
+                        telegram: false,
+                        share: false
+                    },
+                    createdAt: new Date().toISOString(),
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                const response = await fetch(`${WORKER_URL}/api/user/${TEST_ADDRESS}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+                showResult('create-result', data);
+            } catch (error) {
+                showResult('create-result', { error: error.message }, true);
+            }
+        }
+        
+        async function getTestUser() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/user/${TEST_ADDRESS}`);
+                const data = await response.json();
+                showResult('get-result', data, !response.ok);
+            } catch (error) {
+                showResult('get-result', { error: error.message }, true);
+            }
+        }
+        
+        async function updateTestUser() {
+            try {
+                // 先获取当前数据
+                const getResponse = await fetch(`${WORKER_URL}/api/user/${TEST_ADDRESS}`);
+                const userData = await getResponse.json();
+                
+                // 更新数据
+                userData.tokenBalance += 100;
+                userData.tasks.twitter = true;
+                
+                const response = await fetch(`${WORKER_URL}/api/user/${TEST_ADDRESS}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                const data = await response.json();
+                showResult('update-result', data);
+            } catch (error) {
+                showResult('update-result', { error: error.message }, true);
+            }
+        }
+        
+        async function testReferral() {
+            try {
+                // 先创建第二个测试用户
+                const userData2 = {
+                    walletAddress: TEST_ADDRESS_2,
+                    tokenBalance: 2000,
+                    referralCode: TEST_ADDRESS_2.slice(-8),
+                    referralCount: 0,
+                    referrals: [],
+                    tasks: {
+                        twitter: false,
+                        discord: false,
+                        telegram: false,
+                        share: false
+                    },
+                    createdAt: new Date().toISOString(),
+                    lastUpdated: new Date().toISOString()
+                };
+                
+                await fetch(`${WORKER_URL}/api/user/${TEST_ADDRESS_2}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData2)
+                });
+                
+                // 测试推荐
+                const referralData = {
+                    referrerCode: TEST_ADDRESS.slice(-8),
+                    newUserAddress: TEST_ADDRESS_2,
+                    rewardAmount: 200
+                };
+                
+                const response = await fetch(`${WORKER_URL}/api/referral`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(referralData)
+                });
+                
+                const data = await response.json();
+                showResult('referral-result', data, !response.ok);
+            } catch (error) {
+                showResult('referral-result', { error: error.message }, true);
+            }
+        }
+        
+        async function getAllUsers() {
+            try {
+                const response = await fetch(`${WORKER_URL}/api/users`);
+                const data = await response.json();
+                showResult('all-users-result', data);
+            } catch (error) {
+                showResult('all-users-result', { error: error.message }, true);
+            }
+        }
+    </script>
+</body>
+</html>
