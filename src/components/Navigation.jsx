@@ -28,6 +28,7 @@ const Navigation = () => {
     { key: 'how-it-works', label: 'How It Works', href: '#how-it-works' },
     { key: 'tokenomics', label: 'Tokenomics', href: '#tokenomics' },
     { key: 'community', label: 'Community', href: '#community' },
+    { key: 'website', label: 'Official Website', href: 'https://www.vericred.app', external: true },
   ];
   
   const scrollToSection = (href) => {
@@ -83,8 +84,15 @@ const Navigation = () => {
                 key={item.key}
                 href={item.href}
                 onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.href);
+                  if (item.external) {
+                    // 外部链接直接跳转
+                    window.open(item.href, '_blank');
+                    e.preventDefault();
+                  } else {
+                    // 内部锚点滚动
+                    e.preventDefault();
+                    scrollToSection(item.href);
+                  }
                 }}
                 style={{
                   color: '#E2E8F0',
@@ -162,8 +170,16 @@ const Navigation = () => {
               key={item.key}
               href={item.href}
               onClick={(e) => {
-                e.preventDefault();
-                scrollToSection(item.href);
+                if (item.external) {
+                  // 外部链接直接跳转
+                  window.open(item.href, '_blank');
+                  e.preventDefault();
+                  setMobileMenuVisible(false);
+                } else {
+                  // 内部锚点滚动
+                  e.preventDefault();
+                  scrollToSection(item.href);
+                }
               }}
               style={{
                 color: '#E2E8F0',
