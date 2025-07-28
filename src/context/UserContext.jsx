@@ -43,6 +43,26 @@ export const UserProvider = ({ children }) => {
         setTokenBalance(userData.tokenBalance);
         setReferralCount(userData.referralCount);
         setReferralList(userData.referrals || []);
+        
+        // 检查是否有待处理的推荐码
+        const pendingReferral = localStorage.getItem('pendingReferral');
+        if (pendingReferral) {
+          // 自动处理推荐码
+          const success = await processReferral(pendingReferral);
+          if (success) {
+            // 清除待处理的推荐码
+            localStorage.removeItem('pendingReferral');
+            // 重新获取用户数据以更新余额
+            const updatedUserData = await getUserData(address);
+            setTokenBalance(updatedUserData.tokenBalance);
+            setReferralCount(updatedUserData.referralCount);
+            setReferralList(updatedUserData.referrals || []);
+          } else {
+            // 如果推荐码无效，也清除它
+            localStorage.removeItem('pendingReferral');
+          }
+        }
+        
         return userData;
       } catch (error) {
         console.error('获取用户数据失败:', error);
