@@ -18,6 +18,28 @@
    - Source选择"GitHub Actions"
    - 推送代码后自动部署
 
+## Cloudflare Pages 部署
+
+### 优势
+- 与Cloudflare Workers完美集成
+- 免费且性能优秀
+- 全球CDN加速
+- 简单的环境变量配置
+
+### 部署步骤
+1. 连接GitHub仓库到Cloudflare Pages
+2. 构建设置：
+   - 构建命令：`npm run build`
+   - 构建输出目录：`dist`
+   - 环境变量：不设置`DEPLOY_TARGET`（默认为根路径）
+3. 一键部署
+
+### 解决空白页问题
+如果Cloudflare Pages部署后显示空白页：
+1. 确保没有设置`DEPLOY_TARGET=github`环境变量
+2. Cloudflare Pages使用根路径`/`，不需要子路径
+3. 检查构建日志确保构建成功
+
 ## Vercel 部署
 
 ### 优势
@@ -56,20 +78,34 @@
 **GitHub Pages**：
 - 在仓库Settings > Secrets添加环境变量
 - 在GitHub Actions中使用
+- 设置`DEPLOY_TARGET=github`以使用正确的base路径
+
+**Cloudflare Pages**：
+- 在Cloudflare Dashboard > Pages > Project Settings > Environment Variables
+- 添加CLOUDFLARE_API_TOKEN等变量
+- **重要**：不要设置`DEPLOY_TARGET`变量（保持默认根路径）
 
 **Vercel**：
 - 在Vercel Dashboard > Project Settings > Environment Variables
 - 添加CLOUDFLARE_API_TOKEN等变量
+- 不需要设置`DEPLOY_TARGET`（默认根路径）
 
 ## 推荐部署方案
 
-### 方案1：Vercel（推荐）
+### 方案1：Cloudflare Pages（强烈推荐）
+- 与Cloudflare Workers完美集成
+- 免费且性能优秀
+- 全球CDN加速
+- 简单的配置和部署
+- 与后端API在同一平台
+
+### 方案2：Vercel
 - 更稳定的SPA支持
 - 更好的开发体验
 - 自动预览部署
 - 简单的环境变量管理
 
-### 方案2：GitHub Pages
+### 方案3：GitHub Pages
 - 免费且与代码仓库集成
 - 适合开源项目
 - 需要额外配置SPA路由
