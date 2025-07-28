@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, Layout, Typography, Button, Drawer } from 'antd';
-import { MenuOutlined, TranslationOutlined } from '@ant-design/icons';
+import { MenuOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -112,20 +112,75 @@ const Navigation = () => {
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             {/* Language Switcher */}
-            <Button
-              icon={<TranslationOutlined />}
-              onClick={switchLanguage}
-              style={{
-                background: 'rgba(56, 189, 248, 0.1)',
-                border: '1px solid rgba(56, 189, 248, 0.3)',
-                color: '#38BDF8',
-                height: '36px',
-                fontSize: '0.75rem',
-                fontWeight: 600
-              }}
-            >
-              {language === 'zh-CN' ? '简中' : language === 'zh-TW' ? '繁中' : 'EN'}
-            </Button>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              background: 'rgba(30, 41, 59, 0.8)',
+              borderRadius: '20px',
+              padding: '4px',
+              border: '1px solid rgba(56, 189, 248, 0.2)'
+            }}>
+              <div
+                onClick={switchLanguage}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '16px',
+                  background: language === 'en' ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'transparent',
+                  color: language === 'en' ? '#FFFFFF' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontFamily: 'Inter, sans-serif'
+                }}
+              >
+                EN
+              </div>
+              <div
+                onClick={switchLanguage}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '16px',
+                  background: language === 'zh-CN' ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'transparent',
+                  color: language === 'zh-CN' ? '#FFFFFF' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontFamily: 'Inter, sans-serif'
+                }}
+              >
+                简
+              </div>
+              <div
+                onClick={switchLanguage}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '16px',
+                  background: language === 'zh-TW' ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'transparent',
+                  color: language === 'zh-TW' ? '#FFFFFF' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  fontFamily: 'Inter, sans-serif'
+                }}
+              >
+                繁
+              </div>
+            </div>
           </div>
         </div>
         
@@ -197,21 +252,77 @@ const Navigation = () => {
           
           {/* Mobile Language Switcher */}
             <div style={{ marginBottom: '1rem' }}>
-              <Button
-                icon={<TranslationOutlined />}
-                onClick={switchLanguage}
-                block
-                style={{
-                  background: 'rgba(56, 189, 248, 0.1)',
-                  border: '1px solid rgba(56, 189, 248, 0.3)',
-                  color: '#38BDF8',
-                  height: '40px',
-                  fontSize: '0.875rem',
-                  fontWeight: 600
-                }}
-              >
-                {language === 'zh-CN' ? '简中' : language === 'zh-TW' ? '繁中' : 'EN'}
-              </Button>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(30, 41, 59, 0.8)',
+                borderRadius: '25px',
+                padding: '6px',
+                border: '1px solid rgba(56, 189, 248, 0.2)',
+                width: '100%'
+              }}>
+                <div
+                  onClick={switchLanguage}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 1,
+                    height: '40px',
+                    borderRadius: '20px',
+                    background: language === 'en' ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'transparent',
+                    color: language === 'en' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'Inter, sans-serif'
+                  }}
+                >
+                  English
+                </div>
+                <div
+                  onClick={switchLanguage}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 1,
+                    height: '40px',
+                    borderRadius: '20px',
+                    background: language === 'zh-CN' ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'transparent',
+                    color: language === 'zh-CN' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'Inter, sans-serif'
+                  }}
+                >
+                  简体中文
+                </div>
+                <div
+                  onClick={switchLanguage}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flex: 1,
+                    height: '40px',
+                    borderRadius: '20px',
+                    background: language === 'zh-TW' ? 'linear-gradient(135deg, #3B82F6, #1D4ED8)' : 'transparent',
+                    color: language === 'zh-TW' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    fontFamily: 'Inter, sans-serif'
+                  }}
+                >
+                  繁體中文
+                </div>
+              </div>
             </div>
         </div>
       </Drawer>
