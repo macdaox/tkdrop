@@ -463,22 +463,24 @@ const CombinedPage = () => {
                 background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))',
                 border: '1px solid rgba(56, 189, 248, 0.2)',
                 borderRadius: '16px',
-                padding: '2.5rem',
-                maxWidth: '900px',
+                padding: '3rem',
+                maxWidth: '1200px',
+                width: '100%',
+                minHeight: '400px',
                 margin: '0 auto',
                 backdropFilter: 'blur(10px)',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
               }}
             >
-              <Row gutter={[24, 24]} style={{ marginBottom: '2rem' }}>
+              <Row gutter={[32, 32]} style={{ marginBottom: '3rem' }}>
                 <Col xs={24} sm={8}>
                   <div style={{
                     textAlign: 'center',
-                    padding: '2rem',
+                    padding: '2.5rem',
                     background: 'rgba(56, 189, 248, 0.1)',
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     border: '1px solid rgba(56, 189, 248, 0.2)',
-                    minHeight: '140px',
+                    minHeight: '180px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center'
@@ -505,11 +507,11 @@ const CombinedPage = () => {
                 <Col xs={24} sm={8}>
                   <div style={{
                     textAlign: 'center',
-                    padding: '2rem',
+                    padding: '2.5rem',
                     background: 'rgba(56, 189, 248, 0.1)',
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     border: '1px solid rgba(56, 189, 248, 0.2)',
-                    minHeight: '140px',
+                    minHeight: '180px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center'
@@ -535,11 +537,11 @@ const CombinedPage = () => {
                 <Col xs={24} sm={8}>
                   <div style={{
                     textAlign: 'center',
-                    padding: '2rem',
+                    padding: '2.5rem',
                     background: 'rgba(56, 189, 248, 0.1)',
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     border: '1px solid rgba(56, 189, 248, 0.2)',
-                    minHeight: '140px',
+                    minHeight: '180px',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center'
