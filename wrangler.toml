@@ -1,0 +1,41 @@
+# Cloudflare Worker 配置文件
+# 用于部署 Token 项目的 API Worker
+
+name = "token-api-worker"
+main = "cloudflare-worker.js"
+compatibility_date = "2024-01-01"
+
+# R2 存储桶绑定
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "token-user-data"  # 请替换为你的实际存储桶名称
+
+# 环境变量
+[vars]
+CORS_ORIGIN = "*"  # 生产环境中应该设置为具体域名，如 "https://yourdomain.com"
+LOG_LEVEL = "info"
+
+# 生产环境配置示例
+# [env.production]
+# vars = { CORS_ORIGIN = "https://yourdomain.com", LOG_LEVEL = "error" }
+
+# 开发环境配置示例
+# [env.development]
+# vars = { CORS_ORIGIN = "http://localhost:5173", LOG_LEVEL = "debug" }
+
+# Worker 设置
+[build]
+command = "echo 'No build step required'"
+
+# 路由配置（可选）
+# [[routes]]
+# pattern = "api.yourdomain.com/*"
+# zone_name = "yourdomain.com"
+
+# 自定义域名配置（可选）
+# [triggers]
+# crons = []
+
+# 兼容性标志
+[compatibility_flags]
+# 如果需要，可以在这里添加兼容性标志
