@@ -577,6 +577,197 @@ const CombinedPage = () => {
         </div>
       </section>
 
+      {/* The Problem Section */}
+      <section id="problem" style={{ padding: '6rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <Title level={2} style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
+            The Problem
+          </Title>
+          <Paragraph style={{ fontSize: '1.125rem', color: '#94A3B8', maxWidth: '800px', margin: '0 auto' }}>
+            Traditional skill verification relies on centralized institutions that can be compromised, falsified, or become obsolete. 
+            VeriCred solves this by creating an immutable, decentralized record of your skills and achievements on the blockchain.
+          </Paragraph>
+        </div>
+        
+        <Row gutter={[32, 32]}>
+          <Col xs={24} md={8}>
+            <div style={{ textAlign: 'center' }}>
+              <FileExclamationOutlined style={{ fontSize: '3rem', color: '#EF4444', marginBottom: '1rem' }} />
+              <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>Centralized Control</Title>
+              <Paragraph style={{ color: '#94A3B8' }}>
+                Traditional credentials are controlled by institutions that can disappear or change their standards.
+              </Paragraph>
+            </div>
+          </Col>
+          <Col xs={24} md={8}>
+            <div style={{ textAlign: 'center' }}>
+              <SafetyCertificateOutlined style={{ fontSize: '3rem', color: '#F59E0B', marginBottom: '1rem' }} />
+              <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>Easy to Forge</Title>
+              <Paragraph style={{ color: '#94A3B8' }}>
+                Paper certificates and digital badges can be easily counterfeited or manipulated.
+              </Paragraph>
+            </div>
+          </Col>
+          <Col xs={24} md={8}>
+            <div style={{ textAlign: 'center' }}>
+              <LinkOutlined style={{ fontSize: '3rem', color: '#8B5CF6', marginBottom: '1rem' }} />
+              <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>No Portability</Title>
+              <Paragraph style={{ color: '#94A3B8' }}>
+                Skills verified by one organization cannot be easily transferred or recognized elsewhere.
+              </Paragraph>
+            </div>
+          </Col>
+        </Row>
+      </section>
+
+      {/* How It Works Section */}
+      <section id="how-it-works" style={{ padding: '6rem 2rem', background: 'rgba(15, 23, 42, 0.5)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <Title level={2} style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
+              How It Works
+            </Title>
+            <Paragraph style={{ fontSize: '1.125rem', color: '#94A3B8', maxWidth: '800px', margin: '0 auto' }}>
+              VeriCred uses blockchain technology to create tamper-proof skill verification records that you own and control.
+            </Paragraph>
+          </div>
+          
+          <Row gutter={[32, 32]} align="middle">
+            <Col xs={24} md={8}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ 
+                  background: 'rgba(56, 189, 248, 0.1)', 
+                  borderRadius: '50%', 
+                  width: '80px', 
+                  height: '80px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  margin: '0 auto 1.5rem auto' 
+                }}>
+                  <BookOutlined style={{ fontSize: '2rem', color: '#38BDF8' }} />
+                </div>
+                <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>1. Learn & Practice</Title>
+                <Paragraph style={{ color: '#94A3B8' }}>
+                  Develop your skills through courses, projects, or real-world experience.
+                </Paragraph>
+              </div>
+            </Col>
+            <Col xs={24} md={8}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ 
+                  background: 'rgba(56, 189, 248, 0.1)', 
+                  borderRadius: '50%', 
+                  width: '80px', 
+                  height: '80px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  margin: '0 auto 1.5rem auto' 
+                }}>
+                  <SafetyCertificateOutlined style={{ fontSize: '2rem', color: '#38BDF8' }} />
+                </div>
+                <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>2. Get Verified</Title>
+                <Paragraph style={{ color: '#94A3B8' }}>
+                  Submit your work for verification by qualified assessors in our network.
+                </Paragraph>
+              </div>
+            </Col>
+            <Col xs={24} md={8}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ 
+                  background: 'rgba(56, 189, 248, 0.1)', 
+                  borderRadius: '50%', 
+                  width: '80px', 
+                  height: '80px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  margin: '0 auto 1.5rem auto' 
+                }}>
+                  <RocketOutlined style={{ fontSize: '2rem', color: '#38BDF8' }} />
+                </div>
+                <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>3. Own Your Credentials</Title>
+                <Paragraph style={{ color: '#94A3B8' }}>
+                  Receive blockchain-verified credentials that you own and can share anywhere.
+                </Paragraph>
+              </div>
+            </Col>
+          </Row>
+        </div>
+      </section>
+
+      {/* Tokenomics Section */}
+      <section id="tokenomics" style={{ padding: '6rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <Title level={2} style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>
+            Tokenomics
+          </Title>
+          <Paragraph style={{ fontSize: '1.125rem', color: '#94A3B8', maxWidth: '800px', margin: '0 auto' }}>
+            $VRC tokens power the VeriCred ecosystem, incentivizing skill development, verification, and community participation.
+          </Paragraph>
+        </div>
+        
+        <Row gutter={[32, 32]}>
+          <Col xs={24} md={6}>
+            <Card style={{ 
+              background: 'rgba(15, 23, 42, 0.6)', 
+              border: '1px solid rgba(56, 189, 248, 0.2)',
+              textAlign: 'center',
+              height: '100%'
+            }}>
+              <GiftOutlined style={{ fontSize: '3rem', color: '#10B981', marginBottom: '1rem' }} />
+              <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>Earn Tokens</Title>
+              <Paragraph style={{ color: '#94A3B8', fontSize: '0.875rem' }}>
+                Get $VRC tokens for connecting wallet, completing tasks, and referring friends.
+              </Paragraph>
+            </Card>
+          </Col>
+          <Col xs={24} md={6}>
+            <Card style={{ 
+              background: 'rgba(15, 23, 42, 0.6)', 
+              border: '1px solid rgba(56, 189, 248, 0.2)',
+              textAlign: 'center',
+              height: '100%'
+            }}>
+              <SafetyCertificateOutlined style={{ fontSize: '3rem', color: '#3B82F6', marginBottom: '1rem' }} />
+              <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>Verification Fees</Title>
+              <Paragraph style={{ color: '#94A3B8', fontSize: '0.875rem' }}>
+                Use tokens to pay for skill verification and assessment services.
+              </Paragraph>
+            </Card>
+          </Col>
+          <Col xs={24} md={6}>
+            <Card style={{ 
+              background: 'rgba(15, 23, 42, 0.6)', 
+              border: '1px solid rgba(56, 189, 248, 0.2)',
+              textAlign: 'center',
+              height: '100%'
+            }}>
+              <UserAddOutlined style={{ fontSize: '3rem', color: '#8B5CF6', marginBottom: '1rem' }} />
+              <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>Governance</Title>
+              <Paragraph style={{ color: '#94A3B8', fontSize: '0.875rem' }}>
+                Participate in protocol governance and vote on important decisions.
+              </Paragraph>
+            </Card>
+          </Col>
+          <Col xs={24} md={6}>
+            <Card style={{ 
+              background: 'rgba(15, 23, 42, 0.6)', 
+              border: '1px solid rgba(56, 189, 248, 0.2)',
+              textAlign: 'center',
+              height: '100%'
+            }}>
+              <RocketOutlined style={{ fontSize: '3rem', color: '#F59E0B', marginBottom: '1rem' }} />
+              <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>Staking Rewards</Title>
+              <Paragraph style={{ color: '#94A3B8', fontSize: '0.875rem' }}>
+                Stake tokens to earn rewards and support network security.
+              </Paragraph>
+            </Card>
+          </Col>
+        </Row>
+      </section>
+
       {/* Tasks Section */}
       <section id="tasks" style={{ padding: '6rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
