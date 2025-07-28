@@ -16,6 +16,23 @@ export const UserProvider = ({ children }) => {
     }
   }, [walletAddress]);
 
+  // 定期刷新用户数据以获取最新的推荐人数
+  useEffect(() => {
+    if (!walletAddress) return;
+
+    const refreshInterval = setInterval(async () => {
+      try {
+        const userData = await getUserData(walletAddress);
+        setTokenBalance(userData.tokenBalance);
+        setReferralCount(userData.referralCount);
+      } catch (error) {
+        console.error('定期刷新用户数据失败:', error);
+      }
+    }, 30000); // 每30秒刷新一次
+
+    return () => clearInterval(refreshInterval);
+  }, [walletAddress]);
+
   // 从Cloudflare R2获取用户数据
   const fetchUserData = async (address) => {
     if (address) {
@@ -42,6 +59,13 @@ export const UserProvider = ({ children }) => {
     
     try {
       const result = await processReferralReward(referrerCode, walletAddress);
+      if (result.success) {
+        // 推荐成功后，如果当前用户就是推荐人，更新本地状态
+        if (result.referrerData && result.referrerData.walletAddress === walletAddress) {
+          setTokenBalance(result.referrerData.tokenBalance);
+          setReferralCount(result.referrerData.referralCount);
+        }
+      }
       return result.success;
     } catch (error) {
       console.error('处理推荐奖励失败:', error);

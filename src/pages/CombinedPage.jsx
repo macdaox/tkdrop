@@ -273,6 +273,8 @@ const CombinedPage = () => {
             const success = await processReferral(pendingRef);
             if (success) {
               message.success(t.referralSuccess);
+              // 推荐成功后，重新获取用户数据以确保数据一致性
+              await fetchUserData(account);
             }
             localStorage.removeItem('pendingReferral');
           }
@@ -331,8 +333,8 @@ const CombinedPage = () => {
     if (success) {
       message.success(t.referralSuccess);
       setReferralInput('');
-      // 更新推荐人的代币余额
-      await updateTokenBalance();
+      // 刷新当前用户数据（虽然当前用户不是推荐人，但为了保持数据一致性）
+      await fetchUserData(walletAddress);
     } else {
       message.error(t.invalidReferralCode);
     }
