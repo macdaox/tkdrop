@@ -384,7 +384,7 @@ const CombinedPage = () => {
           `
         }}
       >
-        <div style={{ maxWidth: '800px', zIndex: 2 }}>
+        <div style={{ maxWidth: '1400px', zIndex: 2, width: '100%' }}>
           
           <Title 
             level={1} 
@@ -463,9 +463,8 @@ const CombinedPage = () => {
                 background: 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))',
                 border: '1px solid rgba(56, 189, 248, 0.2)',
                 borderRadius: '16px',
-                padding: '3rem',
-                maxWidth: '1200px',
-                width: '100%',
+                padding: '3rem 4rem',
+                width: '1200px',
                 minHeight: '400px',
                 margin: '0 auto',
                 backdropFilter: 'blur(10px)',
