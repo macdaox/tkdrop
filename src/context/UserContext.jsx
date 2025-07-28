@@ -8,6 +8,7 @@ export const UserProvider = ({ children }) => {
   const [tokenBalance, setTokenBalance] = useState(0);
   const [referralCode, setReferralCode] = useState('');
   const [referralCount, setReferralCount] = useState(0);
+  const [referralList, setReferralList] = useState([]);
   
   // 生成推广码（简单使用钱包地址的最后8位）
   useEffect(() => {
@@ -25,6 +26,7 @@ export const UserProvider = ({ children }) => {
         const userData = await getUserData(walletAddress);
         setTokenBalance(userData.tokenBalance);
         setReferralCount(userData.referralCount);
+        setReferralList(userData.referrals || []);
       } catch (error) {
         console.error('定期刷新用户数据失败:', error);
       }
@@ -40,12 +42,14 @@ export const UserProvider = ({ children }) => {
         const userData = await getUserData(address);
         setTokenBalance(userData.tokenBalance);
         setReferralCount(userData.referralCount);
+        setReferralList(userData.referrals || []);
         return userData;
       } catch (error) {
         console.error('获取用户数据失败:', error);
         // 设置默认值
         setTokenBalance(0);
         setReferralCount(0);
+        setReferralList([]);
       }
     }
   };
@@ -98,6 +102,7 @@ export const UserProvider = ({ children }) => {
       const userData = await getUserData(walletAddress);
       setTokenBalance(userData.tokenBalance);
       setReferralCount(userData.referralCount);
+      setReferralList(userData.referrals || []);
     } catch (error) {
       console.error('更新代币余额失败:', error);
     }
@@ -112,6 +117,7 @@ export const UserProvider = ({ children }) => {
         setTokenBalance,
         referralCode,
         referralCount,
+        referralList,
         fetchUserData,
         processReferral,
         completeTask,

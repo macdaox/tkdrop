@@ -32,6 +32,7 @@ const CombinedPage = () => {
     tokenBalance, 
     referralCode,
     referralCount,
+    referralList,
     fetchUserData,
     processReferral,
     completeTask,
@@ -305,6 +306,20 @@ const CombinedPage = () => {
   // 获取推广链接
   const getReferralLink = () => {
     return `${window.location.origin}?ref=${referralCode}`;
+  };
+
+  // 格式化钱包地址，脱敏显示
+  const formatWalletAddress = (address) => {
+    if (!address || address.length < 10) return address;
+    const start = address.slice(0, 6);
+    const end = address.slice(-4);
+    return `${start}****${end}`;
+  };
+
+  // 获取最近的5个被邀请人
+  const getRecentReferrals = () => {
+    if (!referralList || referralList.length === 0) return [];
+    return referralList.slice(-5).reverse(); // 获取最后5个并反转顺序（最新的在前）
   };
 
   // 复制推广链接
@@ -744,11 +759,98 @@ const CombinedPage = () => {
                         padding: '0 32px',
                         fontSize: '1rem',
                         fontWeight: 600,
-                        width: '100%'
+                        width: '100%',
+                        marginBottom: '1rem'
                       }}
                     >
                       {t.copyReferralLink}
                     </Button>
+                    
+                    {/* 分享按钮移到这里 */}
+                    <div style={{ marginBottom: '1rem' }}>
+                      <Title level={5} style={{ color: '#FFFFFF', marginBottom: '1rem', fontSize: '1rem' }}>
+                        <ShareAltOutlined style={{ marginRight: '0.5rem' }} />
+                        {t.shareReferral}
+                      </Title>
+                      <Space size="small" wrap style={{ width: '100%' }}>
+                        <Button
+                          type="primary"
+                          icon={<TwitterOutlined />}
+                          size="small"
+                          onClick={() => {
+                            const text = encodeURIComponent(`${t.shareTwitterText}${getReferralLink()}`);
+                            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+                          }}
+                          style={{
+                            background: '#1DA1F2',
+                            border: 'none',
+                            height: '36px'
+                          }}
+                        >
+                          Twitter
+                        </Button>
+                        
+                        <Button
+                          type="primary"
+                          icon={<MessageOutlined />}
+                          size="small"
+                          onClick={() => {
+                            const url = encodeURIComponent(getReferralLink());
+                            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+                          }}
+                          style={{
+                            background: '#1877F2',
+                            border: 'none',
+                            height: '36px'
+                          }}
+                        >
+                          Facebook
+                        </Button>
+                        
+                        <Button
+                          type="primary"
+                          icon={<SendOutlined />}
+                          size="small"
+                          onClick={() => {
+                            const text = encodeURIComponent(`${t.shareTelegramText}${getReferralLink()}`);
+                            window.open(`https://t.me/share/url?url=${getReferralLink()}&text=${text}`, '_blank');
+                          }}
+                          style={{
+                            background: '#0088CC',
+                            border: 'none',
+                            height: '36px'
+                          }}
+                        >
+                          Telegram
+                        </Button>
+                        
+                        <Button
+                          type="default"
+                          icon={<ShareAltOutlined />}
+                          size="small"
+                          onClick={() => {
+                            if (navigator.share) {
+                              navigator.share({
+                                title: 'VeriChain',
+                                text: t.shareText,
+                                url: getReferralLink()
+                              });
+                            } else {
+                              navigator.clipboard.writeText(getReferralLink());
+                              message.success(t.linkCopied);
+                            }
+                          }}
+                          style={{
+                            background: 'transparent',
+                            border: '1px solid #38BDF8',
+                            color: '#38BDF8',
+                            height: '36px'
+                          }}
+                        >
+                          {t.share}
+                        </Button>
+                      </Space>
+                    </div>
                   </div>
                   
                   <Divider style={{ borderColor: 'rgba(56, 189, 248, 0.2)' }} />
@@ -784,97 +886,80 @@ const CombinedPage = () => {
                   styles={{ body: { padding: '2rem' } }}
                 >
                   <Title level={4} style={{ color: '#FFFFFF', marginBottom: '2rem' }}>
-                    <ShareAltOutlined style={{ marginRight: '0.5rem' }} />
-                    {t.shareReferral}
+                    <UserAddOutlined style={{ marginRight: '0.5rem' }} />
+                    最近邀请的用户
                   </Title>
                   
-                  <div style={{ textAlign: 'center' }}>
-                    <Paragraph style={{ color: '#94A3B8', marginBottom: '2rem' }}>
-                      {t.shareDescription}
-                    </Paragraph>
-                    
-                    <Space size="large" wrap style={{ justifyContent: 'center' }}>
-                      <Button
-                        type="primary"
-                        icon={<TwitterOutlined />}
-                        size="large"
-                        onClick={() => {
-                          const text = encodeURIComponent(`${t.shareTwitterText}${getReferralLink()}`);
-                          window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-                        }}
-                        style={{
-                          background: '#1DA1F2',
-                          border: 'none',
-                          height: '48px',
-                          padding: '0 24px'
-                        }}
-                      >
-                        Twitter
-                      </Button>
-                      
-                      <Button
-                        type="primary"
-                        icon={<MessageOutlined />}
-                        size="large"
-                        onClick={() => {
-                          const url = encodeURIComponent(getReferralLink());
-                          window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
-                        }}
-                        style={{
-                          background: '#1877F2',
-                          border: 'none',
-                          height: '48px',
-                          padding: '0 24px'
-                        }}
-                      >
-                        Facebook
-                      </Button>
-                      
-                      <Button
-                        type="primary"
-                        icon={<SendOutlined />}
-                        size="large"
-                        onClick={() => {
-                          const text = encodeURIComponent(`${t.shareTelegramText}${getReferralLink()}`);
-                          window.open(`https://t.me/share/url?url=${getReferralLink()}&text=${text}`, '_blank');
-                        }}
-                        style={{
-                          background: '#0088CC',
-                          border: 'none',
-                          height: '48px',
-                          padding: '0 24px'
-                        }}
-                      >
-                        Telegram
-                      </Button>
-                      
-                      <Button
-                        type="default"
-                        icon={<ShareAltOutlined />}
-                        size="large"
-                        onClick={() => {
-                          if (navigator.share) {
-                            navigator.share({
-                              title: 'VeriChain',
-                              text: t.shareText,
-                              url: getReferralLink()
-                            });
-                          } else {
-                            navigator.clipboard.writeText(getReferralLink());
-                            message.success(t.linkCopied);
-                          }
-                        }}
-                        style={{
-                          background: 'transparent',
-                          border: '1px solid #38BDF8',
-                          color: '#38BDF8',
-                          height: '48px',
-                          padding: '0 24px'
-                        }}
-                      >
-                        {t.share}
-                      </Button>
-                    </Space>
+                  <div>
+                    {getRecentReferrals().length > 0 ? (
+                      <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                        {getRecentReferrals().map((address, index) => (
+                          <div 
+                            key={address}
+                            style={{
+                              background: 'rgba(56, 189, 248, 0.1)',
+                              border: '1px solid rgba(56, 189, 248, 0.2)',
+                              borderRadius: '8px',
+                              padding: '1rem',
+                              marginBottom: '0.75rem',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between'
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                              <div 
+                                style={{
+                                  width: '32px',
+                                  height: '32px',
+                                  borderRadius: '50%',
+                                  background: 'linear-gradient(135deg, #38BDF8, #0EA5E9)',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  marginRight: '0.75rem',
+                                  fontSize: '0.875rem',
+                                  fontWeight: 'bold',
+                                  color: '#FFFFFF'
+                                }}
+                              >
+                                {index + 1}
+                              </div>
+                              <div>
+                                <Text 
+                                  style={{ 
+                                    color: '#38BDF8', 
+                                    fontSize: '0.875rem',
+                                    fontFamily: 'monospace',
+                                    fontWeight: '500'
+                                  }}
+                                >
+                                  {formatWalletAddress(address)}
+                                </Text>
+                                <div style={{ fontSize: '0.75rem', color: '#94A3B8', marginTop: '2px' }}>
+                                  新用户
+                                </div>
+                              </div>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                              <Text style={{ color: '#10B981', fontSize: '0.875rem', fontWeight: 'bold' }}>
+                                +200 $VRC
+                              </Text>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                        <UserAddOutlined style={{ fontSize: '3rem', color: '#475569', marginBottom: '1rem' }} />
+                        <Paragraph style={{ color: '#94A3B8', margin: 0 }}>
+                          还没有邀请任何用户
+                        </Paragraph>
+                        <Paragraph style={{ color: '#64748B', fontSize: '0.875rem', margin: '0.5rem 0 0 0' }}>
+                          分享你的推荐链接开始邀请朋友吧！
+                        </Paragraph>
+                      </div>
+                    )}
                   </div>
                 </Card>
               </Col>
