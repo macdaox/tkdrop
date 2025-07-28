@@ -768,7 +768,7 @@ const CombinedPage = () => {
                         <ShareAltOutlined style={{ marginRight: '0.5rem' }} />
                         {t.shareReferral}
                       </Title>
-                      <Space size="small" wrap style={{ width: '100%' }}>
+                      <Space size={4} wrap style={{ width: '100%' }}>
                         <Button
                           type="primary"
                           icon={<TwitterOutlined />}
@@ -780,7 +780,9 @@ const CombinedPage = () => {
                           style={{
                             background: '#1DA1F2',
                             border: 'none',
-                            height: '36px'
+                            height: '28px',
+                            fontSize: '12px',
+                            padding: '0 8px'
                           }}
                         >
                           Twitter
@@ -797,7 +799,9 @@ const CombinedPage = () => {
                           style={{
                             background: '#1877F2',
                             border: 'none',
-                            height: '36px'
+                            height: '28px',
+                            fontSize: '12px',
+                            padding: '0 8px'
                           }}
                         >
                           Facebook
@@ -814,7 +818,9 @@ const CombinedPage = () => {
                           style={{
                             background: '#0088CC',
                             border: 'none',
-                            height: '36px'
+                            height: '28px',
+                            fontSize: '12px',
+                            padding: '0 8px'
                           }}
                         >
                           Telegram
@@ -840,7 +846,9 @@ const CombinedPage = () => {
                             background: 'transparent',
                             border: '1px solid #38BDF8',
                             color: '#38BDF8',
-                            height: '36px'
+                            height: '28px',
+                            fontSize: '12px',
+                            padding: '0 8px'
                           }}
                         >
                           {t.share}
