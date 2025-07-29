@@ -916,11 +916,10 @@ const CombinedPage = () => {
             
                 <Card 
                   style={{
-                    height: '100%',
                     background: 'rgba(15, 23, 42, 0.6)',
                     border: '1px solid rgba(56, 189, 248, 0.2)'
                   }}
-                  styles={{ body: { padding: '2rem' } }}
+                  styles={{ body: { padding: '1.5rem' } }}
                 >
                   <div style={{ marginBottom: '2rem' }}>
                     <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1rem' }}>
@@ -1085,20 +1084,19 @@ const CombinedPage = () => {
               <Col xs={24} lg={12}>
                 <Card 
                   style={{
-                    height: '100%',
                     background: 'rgba(15, 23, 42, 0.6)',
                     border: '1px solid rgba(56, 189, 248, 0.2)'
                   }}
-                  styles={{ body: { padding: '2rem' } }}
+                  styles={{ body: { padding: '1.5rem' } }}
                 >
-                  <Title level={4} style={{ color: '#FFFFFF', marginBottom: '2rem' }}>
+                  <Title level={4} style={{ color: '#FFFFFF', marginBottom: '1.5rem' }}>
                     <UserAddOutlined style={{ marginRight: '0.5rem' }} />
                     {t.recentInvitedUsers}
                   </Title>
                   
                   <div>
                     {getRecentReferrals().length > 0 ? (
-                      <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                      <div>
                         {getRecentReferrals().map((address, index) => (
                           <div 
                             key={address}
@@ -1106,8 +1104,8 @@ const CombinedPage = () => {
                               background: 'rgba(56, 189, 248, 0.1)',
                               border: '1px solid rgba(56, 189, 248, 0.2)',
                               borderRadius: '8px',
-                              padding: '1rem',
-                              marginBottom: '0.75rem',
+                              padding: '0.75rem',
+                              marginBottom: '0.5rem',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'space-between'
