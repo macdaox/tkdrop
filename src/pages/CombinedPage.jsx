@@ -101,6 +101,10 @@ const CombinedPage = () => {
       communityTitle: 'Join Our Community',
       communitySubtitle: 'Connect with developers, educators, and professionals building the future of skill verification',
       
+      // Share Text
+      shareTwitterText: '🚀 Discover VeriCred - The revolutionary blockchain-based skill verification protocol! Connect your wallet to get 2000 $VRC tokens instantly! Join the future of skill verification: ',
+      shareTelegramText: '🎯 VeriCred is transforming how we verify skills and knowledge on blockchain! Get 2000 $VRC tokens just for connecting your wallet. Don\'t miss this opportunity: ',
+      
       // Messages
       walletConnected: 'Wallet connected successfully! Received 2000 VRC tokens!',
       connectionRejected: 'Connection rejected',
@@ -169,6 +173,10 @@ const CombinedPage = () => {
       communityTitle: '加入我们的社区',
       communitySubtitle: '与开发者、教育工作者和专业人士一起构建技能确权的未来',
       
+      // Share Text
+      shareTwitterText: '🚀 发现VeriCred - 革命性的区块链技能确权协议！连接钱包即可获得2000个$VRC代币！加入技能确权的未来：',
+      shareTelegramText: '🎯 VeriCred正在改变我们在区块链上验证技能和知识的方式！仅需连接钱包即可获得2000个$VRC代币。不要错过这个机会：',
+      
       // Messages
       walletConnected: '钱包连接成功！获得2000个VRC代币！',
       connectionRejected: '连接被拒绝',
@@ -236,6 +244,10 @@ const CombinedPage = () => {
       // Community Section
       communityTitle: '加入我們的社區',
       communitySubtitle: '與開發者、教育工作者和專業人士一起構建技能確權的未來',
+      
+      // Share Text
+      shareTwitterText: '🚀 發現VeriCred - 革命性的區塊鏈技能確權協議！連接錢包即可獲得2000個$VRC代幣！加入技能確權的未來：',
+      shareTelegramText: '🎯 VeriCred正在改變我們在區塊鏈上驗證技能和知識的方式！僅需連接錢包即可獲得2000個$VRC代幣。不要錯過這個機會：',
       
       // Messages
       walletConnected: '錢包連接成功！獲得2000個VRC代幣！',
