@@ -141,6 +141,16 @@ const saveUserDataToLocalStorage = (walletAddress, userData) => {
 const processReferralLocalStorage = (referrerCode, newUserAddress) => {
   const storedUsers = JSON.parse(localStorage.getItem('users') || '{}');
   
+  // 检查用户是否已经被任何人推荐过（全局检查）
+  const isAlreadyReferred = Object.keys(storedUsers).some(addr => {
+    const userData = storedUsers[addr];
+    return userData.referrals && userData.referrals.includes(newUserAddress);
+  });
+  
+  if (isAlreadyReferred) {
+    return { success: false, message: '已经被推荐过' };
+  }
+  
   // 查找推荐人
   const referrer = Object.keys(storedUsers).find(addr => {
     const userData = storedUsers[addr];
@@ -149,9 +159,9 @@ const processReferralLocalStorage = (referrerCode, newUserAddress) => {
   });
   
   if (referrer && storedUsers[referrer]) {
-    // 检查是否已经被推荐过
-    if (storedUsers[referrer].referrals && storedUsers[referrer].referrals.includes(newUserAddress)) {
-      return { success: false, message: '已经被推荐过' };
+    // 检查是否是自己推荐自己
+    if (referrer === newUserAddress) {
+      return { success: false, message: '不能使用自己的推荐码' };
     }
     
     // 获取或创建被推荐人数据

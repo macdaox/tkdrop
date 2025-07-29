@@ -98,26 +98,29 @@ export const UserProvider = ({ children }) => {
 
   // 处理推荐奖励
   const processReferral = async (referralCode) => {
-    if (!address || !referralCode) return false;
+    if (!address || !referralCode) return { success: false, message: '缺少必要参数' };
     
     try {
-      const result = await processReferralReward(address, referralCode);
+      const result = await processReferralReward(referralCode, address);
       if (result.success) {
-        setTokenBalance(result.userData.tokenBalance);
-        setReferralCount(result.userData.referralCount);
-        setReferralList(result.userData.referrals || []);
-        setTaskStatus(result.userData.tasks || {
-          twitter: false,
-          discord: false,
-          telegram: false,
-          share: false
-        });
-        return true;
+        // 更新当前用户数据（被推荐人）
+        if (result.newUserData) {
+          setTokenBalance(result.newUserData.tokenBalance);
+          setReferralCount(result.newUserData.referralCount);
+          setReferralList(result.newUserData.referrals || []);
+          setTaskStatus(result.newUserData.tasks || {
+            twitter: false,
+            discord: false,
+            telegram: false,
+            share: false
+          });
+        }
+        return { success: true, message: result.message || '推荐奖励发放成功' };
       }
-      return false;
+      return { success: false, message: result.message || '推荐码无效' };
     } catch (error) {
       console.error('处理推荐奖励失败:', error);
-      return false;
+      return { success: false, message: '处理推荐奖励时发生错误' };
     }
   };
 

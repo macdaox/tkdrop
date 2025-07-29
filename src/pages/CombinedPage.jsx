@@ -329,6 +329,8 @@ const CombinedPage = () => {
 
   // 处理推荐码输入
   const handleReferralSubmit = async () => {
+    console.log('handleReferralSubmit called', { isConnected, referralInput });
+    
     if (!isConnected) {
       message.error(t.connectWalletFirst);
       return;
@@ -339,14 +341,79 @@ const CombinedPage = () => {
       return;
     }
     
-    const success = await processReferral(referralInput.trim());
-    if (success) {
-      message.success(t.referralSuccess);
-      setReferralInput('');
-      // 刷新当前用户数据（虽然当前用户不是推荐人，但为了保持数据一致性）
-      await fetchUserData(walletAddress);
-    } else {
-      message.error(t.invalidReferralCode);
+    message.info('正在处理推荐码...');
+    
+    try {
+      const result = await processReferral(referralInput.trim());
+      console.log('processReferral result:', result);
+      console.log('result type:', typeof result);
+      console.log('result.success:', result.success);
+      console.log('result.message:', result.message);
+      
+      if (result && result.success) {
+        message.success({
+          content: result.message || t.referralSuccess,
+          duration: 5,
+          style: {
+            marginTop: '20vh',
+          },
+        });
+        setReferralInput('');
+        // 刷新当前用户数据（虽然当前用户不是推荐人，但为了保持数据一致性）
+        await fetchUserData(walletAddress);
+      } else {
+        console.log('进入错误处理分支');
+        // 处理result为空或undefined的情况
+        if (!result) {
+          console.log('result is null or undefined');
+          message.error({
+            content: '❌ 处理推荐码时发生未知错误',
+            duration: 5,
+            style: {
+              marginTop: '20vh',
+            },
+          });
+          return;
+        }
+        
+        // 根据具体错误信息显示不同的提醒
+        if (result.message === '已经被推荐过') {
+          message.warning({
+            content: '⚠️ 您已经使用过推荐码了，每个账户只能使用一次推荐码！',
+            duration: 6,
+            style: {
+              marginTop: '20vh',
+            },
+          });
+        } else if (result.message === '不能使用自己的推荐码') {
+          message.warning({
+            content: '⚠️ 不能使用自己的推荐码，请使用其他人的推荐码！',
+            duration: 6,
+            style: {
+              marginTop: '20vh',
+            },
+          });
+        } else if (result.message === '推荐码无效') {
+          message.error({
+            content: '❌ 推荐码无效，请检查推荐码是否正确',
+            duration: 5,
+            style: {
+              marginTop: '20vh',
+            },
+          });
+        } else {
+          message.error({
+            content: result.message || t.invalidReferralCode,
+            duration: 5,
+            style: {
+              marginTop: '20vh',
+            },
+          });
+        }
+      }
+    } catch (error) {
+      console.error('推荐码处理错误:', error);
+      message.error('处理推荐码时发生错误，请稍后重试');
     }
   };
 
