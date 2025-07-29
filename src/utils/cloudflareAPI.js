@@ -4,6 +4,9 @@ import { CLOUDFLARE_CONFIG, ENV_CONFIG } from '../config/cloudflare';
 // 使用配置文件中的设置
 const CF_CONFIG = CLOUDFLARE_CONFIG;
 
+// 数据结构版本（与后端保持一致）
+const DATA_SCHEMA_VERSION = '1.1.0';
+
 // 用户数据结构
 const createUserData = (walletAddress) => ({
   walletAddress,
@@ -15,11 +18,18 @@ const createUserData = (walletAddress) => ({
     twitter: false,
     discord: false,
     telegram: false,
-    share: false
+    share: false,
+    retweet: false,
+    like: false,
+    reply: false
   },
+  schemaVersion: DATA_SCHEMA_VERSION,
   createdAt: new Date().toISOString(),
   lastUpdated: new Date().toISOString()
 });
+
+// 导出版本信息供其他组件使用
+export const getClientSchemaVersion = () => DATA_SCHEMA_VERSION;
 
 // 获取用户数据
 export const getUserData = async (walletAddress) => {
@@ -236,7 +246,10 @@ export const updateTaskStatus = async (walletAddress, taskType, completed = true
         twitter: 50,
         discord: 100,
         telegram: 75,
-        share: 25
+        share: 25,
+        retweet: 30,
+        like: 20,
+        reply: 40
       };
       
       userData.tokenBalance += rewards[taskType] || 0;
@@ -255,10 +268,106 @@ export const updateTaskStatus = async (walletAddress, taskType, completed = true
   }
 };
 
+// 手动触发数据迁移
+export const migrateUserData = async (walletAddress) => {
+  try {
+    const response = await fetch(`${CF_CONFIG.WORKER_URL}/api/migrate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ walletAddress })
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      return {
+        success: true,
+        message: result.message,
+        currentVersion: result.currentVersion,
+        latestVersion: result.latestVersion,
+        needsUpdate: result.currentVersion !== result.latestVersion
+      };
+    } else {
+      const error = await response.json();
+      throw new Error(error.error || '数据迁移失败');
+    }
+  } catch (error) {
+    console.error('数据迁移失败:', error);
+    return {
+      success: false,
+      message: error.message || '数据迁移失败',
+      error: error
+    };
+  }
+};
+
+// 获取数据结构版本信息
+export const getSchemaInfo = async () => {
+  try {
+    const response = await fetch(`${CF_CONFIG.WORKER_URL}/api/schema`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      return {
+        success: true,
+        currentVersion: result.currentVersion,
+        schema: result.schema,
+        description: result.description
+      };
+    } else {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('获取数据结构信息失败:', error);
+    return {
+      success: false,
+      message: error.message || '获取数据结构信息失败',
+      error: error
+    };
+  }
+};
+
+// 检查用户数据是否需要迁移
+export const checkDataMigration = async (walletAddress) => {
+  try {
+    const userData = await getUserData(walletAddress);
+    const schemaInfo = await getSchemaInfo();
+    
+    if (!userData || !schemaInfo.success) {
+      return { needsMigration: false, error: '无法检查数据版本' };
+    }
+    
+    const userVersion = userData.schemaVersion || '1.0.0';
+    const latestVersion = schemaInfo.currentVersion;
+    
+    return {
+      needsMigration: userVersion !== latestVersion,
+      userVersion,
+      latestVersion,
+      userData
+    };
+  } catch (error) {
+    console.error('检查数据迁移状态失败:', error);
+    return {
+      needsMigration: false,
+      error: error.message
+    };
+  }
+};
+
 export default {
   getUserData,
   saveUserData,
   processReferralReward,
   getAllUsersData,
-  updateTaskStatus
+  updateTaskStatus,
+  migrateUserData,
+  getSchemaInfo,
+  checkDataMigration
 };

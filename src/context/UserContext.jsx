@@ -63,7 +63,10 @@ export const UserProvider = ({ children }) => {
         twitter: false,
         discord: false,
         telegram: false,
-        share: false
+        share: false,
+        retweet: false,
+        like: false,
+        reply: false
       });
       
       // 检查是否有待处理的推荐码
@@ -112,7 +115,10 @@ export const UserProvider = ({ children }) => {
             twitter: false,
             discord: false,
             telegram: false,
-            share: false
+            share: false,
+            retweet: false,
+            like: false,
+            reply: false
           });
         }
         return { success: true, message: result.message || '推荐奖励发放成功' };
@@ -136,7 +142,10 @@ export const UserProvider = ({ children }) => {
           twitter: false,
           discord: false,
           telegram: false,
-          share: false
+          share: false,
+          retweet: false,
+          like: false,
+          reply: false
         });
         return true;
       }

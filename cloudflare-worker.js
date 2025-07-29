@@ -28,7 +28,7 @@ function getUserPath(walletAddress) {
   return `users/${walletAddress.toLowerCase()}.json`;
 }
 
-// 获取用户数据
+// 获取用户数据（带自动迁移）
 async function getUserData(env, walletAddress) {
   try {
     const userPath = getUserPath(walletAddress);
@@ -39,7 +39,17 @@ async function getUserData(env, walletAddress) {
     }
     
     const userData = await object.json();
-    return userData;
+    
+    // 自动数据迁移
+    const { data: migratedData, migrated } = migrateUserData(userData);
+    
+    // 如果数据被迁移，自动保存更新后的数据
+    if (migrated) {
+      await saveUserData(env, walletAddress, migratedData);
+      console.log(`自动保存迁移后的数据: ${walletAddress}`);
+    }
+    
+    return migratedData;
   } catch (error) {
     console.error('获取用户数据失败:', error);
     throw error;
@@ -69,23 +79,80 @@ async function saveUserData(env, walletAddress, userData) {
   }
 }
 
-// 创建新用户数据
-function createUserData(walletAddress) {
+// 数据结构版本管理
+const DATA_SCHEMA_VERSION = '1.1.0';
+
+// 默认数据结构模板
+function getDefaultUserDataSchema() {
   return {
-    walletAddress: walletAddress.toLowerCase(),
+    walletAddress: '',
     tokenBalance: 2000,
-    referralCode: walletAddress.slice(-8).toLowerCase(),
+    referralCode: '',
     referralCount: 0,
     referrals: [],
     tasks: {
       twitter: false,
       discord: false,
       telegram: false,
-      share: false
+      share: false,
+      retweet: false,
+      like: false,
+      reply: false
     },
+    schemaVersion: DATA_SCHEMA_VERSION,
+    createdAt: '',
+    lastUpdated: ''
+  };
+}
+
+// 创建新用户数据
+function createUserData(walletAddress) {
+  const defaultSchema = getDefaultUserDataSchema();
+  return {
+    ...defaultSchema,
+    walletAddress: walletAddress.toLowerCase(),
+    referralCode: walletAddress.slice(-8).toLowerCase(),
     createdAt: new Date().toISOString(),
     lastUpdated: new Date().toISOString()
   };
+}
+
+// 数据迁移和字段自动添加函数
+function migrateUserData(userData) {
+  const defaultSchema = getDefaultUserDataSchema();
+  let migrated = false;
+  
+  // 深度合并函数
+  function deepMerge(target, source) {
+    const result = { ...target };
+    
+    for (const key in source) {
+      if (source[key] !== null && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+        result[key] = deepMerge(target[key] || {}, source[key]);
+      } else if (!(key in target)) {
+        result[key] = source[key];
+        migrated = true;
+      }
+    }
+    
+    return result;
+  }
+  
+  // 合并默认结构和现有数据
+  const migratedData = deepMerge(userData, defaultSchema);
+  
+  // 更新版本号和时间戳
+  if (!userData.schemaVersion || userData.schemaVersion !== DATA_SCHEMA_VERSION) {
+    migratedData.schemaVersion = DATA_SCHEMA_VERSION;
+    migrated = true;
+  }
+  
+  if (migrated) {
+    migratedData.lastUpdated = new Date().toISOString();
+    console.log(`数据迁移完成: ${userData.walletAddress}, 版本: ${userData.schemaVersion || '未知'} -> ${DATA_SCHEMA_VERSION}`);
+  }
+  
+  return { data: migratedData, migrated };
 }
 
 // 查找推荐人
@@ -239,6 +306,49 @@ export default {
         
         return new Response(JSON.stringify(result), {
           status: result.success ? 200 : 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
+      if (path === '/api/migrate' && method === 'POST') {
+        // 手动触发数据迁移
+        const { walletAddress } = await request.json();
+        
+        if (!walletAddress) {
+          return new Response(JSON.stringify({ error: '缺少钱包地址' }), {
+            status: 400,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        
+        const userData = await getUserData(env, walletAddress);
+        
+        if (userData === null) {
+          return new Response(JSON.stringify({ error: '用户不存在' }), {
+            status: 404,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        
+        return new Response(JSON.stringify({
+          success: true,
+          message: '数据迁移检查完成',
+          currentVersion: userData.schemaVersion,
+          latestVersion: DATA_SCHEMA_VERSION
+        }), {
+          status: 200,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+      
+      if (path === '/api/schema' && method === 'GET') {
+        // 获取当前数据结构版本信息
+        return new Response(JSON.stringify({
+          currentVersion: DATA_SCHEMA_VERSION,
+          schema: getDefaultUserDataSchema(),
+          description: '当前数据结构模板和版本信息'
+        }), {
+          status: 200,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         });
       }

@@ -17,7 +17,10 @@ import {
   ShareAltOutlined,
   CopyOutlined,
   CheckOutlined,
-  UserAddOutlined
+  UserAddOutlined,
+  RetweetOutlined,
+  LikeOutlined,
+  CommentOutlined
 } from '@ant-design/icons';
 import Navigation from '../components/Navigation';
 import { useUser } from '../context/UserContext';
@@ -74,6 +77,12 @@ const CombinedPage = () => {
       joinTelegramDesc: 'Join our Telegram group to get real-time project information',
       shareProject: 'Share Project',
       shareProjectDesc: 'Share VeriCred project on social media to help us grow',
+      retweetTwitter: 'Retweet Twitter',
+      retweetTwitterDesc: 'Retweet our latest Twitter post to spread the word',
+      likeTwitter: 'Like Twitter',
+      likeTwitterDesc: 'Like our Twitter posts to show your support',
+      replyTwitter: 'Reply Twitter',
+      replyTwitterDesc: 'Reply to our Twitter posts and join the conversation',
       completeTask: 'Complete Task',
       reward: 'Reward',
       
@@ -146,6 +155,12 @@ const CombinedPage = () => {
       joinTelegramDesc: '加入我们的Telegram群组，获取项目实时信息',
       shareProject: '分享项目',
       shareProjectDesc: '在社交媒体上分享VeriCred项目，帮助我们成长',
+      retweetTwitter: '转发推特',
+      retweetTwitterDesc: '转发我们最新的推特动态，传播项目信息',
+      likeTwitter: '点赞推特',
+      likeTwitterDesc: '为我们的推特点赞，表达你的支持',
+      replyTwitter: '回复推特',
+      replyTwitterDesc: '回复我们的推特动态，参与讨论互动',
       completeTask: '完成任务',
       reward: '奖励',
       
@@ -218,6 +233,12 @@ const CombinedPage = () => {
       joinTelegramDesc: '加入我們的Telegram群組，獲取項目實時信息',
       shareProject: '分享項目',
       shareProjectDesc: '在社交媒體上分享VeriCred項目，幫助我們成長',
+      retweetTwitter: '轉發推特',
+      retweetTwitterDesc: '轉發我們最新的推特動態，傳播項目信息',
+      likeTwitter: '點讚推特',
+      likeTwitterDesc: '為我們的推特點讚，表達你的支持',
+      replyTwitter: '回覆推特',
+      replyTwitterDesc: '回覆我們的推特動態，參與討論互動',
       completeTask: '完成任務',
       reward: '獎勵',
       
@@ -908,6 +929,125 @@ const CombinedPage = () => {
             </Card>
           </Col>
         </Row>
+        
+        {/* 新增的三个Twitter任务行 - 低调展示 */}
+        <div style={{ marginTop: '32px', borderTop: '1px solid rgba(56, 189, 248, 0.1)', paddingTop: '24px' }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            background: 'rgba(15, 23, 42, 0.3)',
+            border: '1px solid rgba(56, 189, 248, 0.05)',
+            borderRadius: '8px',
+            marginBottom: '8px',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <RetweetOutlined style={{ fontSize: '1.2rem', color: '#64748B' }} />
+              <div>
+                <Text style={{ color: '#E2E8F0', fontSize: '0.9rem', fontWeight: '500' }}>{t.retweetTwitter}</Text>
+                <div style={{ color: '#64748B', fontSize: '0.75rem' }}>{t.retweetTwitterDesc}</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Text style={{ color: '#38BDF8', fontSize: '0.85rem', fontWeight: '600' }}>+30 $VRC</Text>
+              <Button 
+                type={taskStatus.retweet ? "default" : "text"}
+                size="small"
+                disabled={!isConnected || taskStatus.retweet}
+                onClick={() => handleTaskComplete('retweet', 'https://twitter.com/VeriCred', t.retweetTwitter, 30)}
+                style={{
+                  fontSize: '0.75rem',
+                  height: '28px',
+                  padding: '0 12px',
+                  background: taskStatus.retweet ? '#10B981' : 'rgba(56, 189, 248, 0.1)',
+                  borderColor: taskStatus.retweet ? '#10B981' : 'rgba(56, 189, 248, 0.2)',
+                  color: taskStatus.retweet ? '#FFFFFF' : '#38BDF8'
+                }}
+              >
+                {taskStatus.retweet ? t.completed : t.completeTask}
+              </Button>
+            </div>
+          </div>
+          
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            background: 'rgba(15, 23, 42, 0.3)',
+            border: '1px solid rgba(56, 189, 248, 0.05)',
+            borderRadius: '8px',
+            marginBottom: '8px',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <LikeOutlined style={{ fontSize: '1.2rem', color: '#64748B' }} />
+              <div>
+                <Text style={{ color: '#E2E8F0', fontSize: '0.9rem', fontWeight: '500' }}>{t.likeTwitter}</Text>
+                <div style={{ color: '#64748B', fontSize: '0.75rem' }}>{t.likeTwitterDesc}</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Text style={{ color: '#38BDF8', fontSize: '0.85rem', fontWeight: '600' }}>+20 $VRC</Text>
+              <Button 
+                type={taskStatus.like ? "default" : "text"}
+                size="small"
+                disabled={!isConnected || taskStatus.like}
+                onClick={() => handleTaskComplete('like', 'https://twitter.com/VeriCred', t.likeTwitter, 20)}
+                style={{
+                  fontSize: '0.75rem',
+                  height: '28px',
+                  padding: '0 12px',
+                  background: taskStatus.like ? '#10B981' : 'rgba(56, 189, 248, 0.1)',
+                  borderColor: taskStatus.like ? '#10B981' : 'rgba(56, 189, 248, 0.2)',
+                  color: taskStatus.like ? '#FFFFFF' : '#38BDF8'
+                }}
+              >
+                {taskStatus.like ? t.completed : t.completeTask}
+              </Button>
+            </div>
+          </div>
+          
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            padding: '12px 16px',
+            background: 'rgba(15, 23, 42, 0.3)',
+            border: '1px solid rgba(56, 189, 248, 0.05)',
+            borderRadius: '8px',
+            transition: 'all 0.3s ease'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <CommentOutlined style={{ fontSize: '1.2rem', color: '#64748B' }} />
+              <div>
+                <Text style={{ color: '#E2E8F0', fontSize: '0.9rem', fontWeight: '500' }}>{t.replyTwitter}</Text>
+                <div style={{ color: '#64748B', fontSize: '0.75rem' }}>{t.replyTwitterDesc}</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <Text style={{ color: '#38BDF8', fontSize: '0.85rem', fontWeight: '600' }}>+40 $VRC</Text>
+              <Button 
+                type={taskStatus.reply ? "default" : "text"}
+                size="small"
+                disabled={!isConnected || taskStatus.reply}
+                onClick={() => handleTaskComplete('reply', 'https://twitter.com/VeriCred', t.replyTwitter, 40)}
+                style={{
+                  fontSize: '0.75rem',
+                  height: '28px',
+                  padding: '0 12px',
+                  background: taskStatus.reply ? '#10B981' : 'rgba(56, 189, 248, 0.1)',
+                  borderColor: taskStatus.reply ? '#10B981' : 'rgba(56, 189, 248, 0.2)',
+                  color: taskStatus.reply ? '#FFFFFF' : '#38BDF8'
+                }}
+              >
+                {taskStatus.reply ? t.completed : t.completeTask}
+              </Button>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Referral Link Section */}
