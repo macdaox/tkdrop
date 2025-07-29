@@ -826,7 +826,7 @@ const CombinedPage = () => {
                 type={taskStatus.discord ? "default" : "primary"}
                 size="small"
                 disabled={!isConnected || taskStatus.discord}
-                onClick={() => handleTaskComplete('discord', 'https://discord.gg/verichain', t.joinDiscord, 100)}
+                onClick={() => handleTaskComplete('discord', 'https://discord.gg/uZAg6Sg39e', t.joinDiscord, 100)}
                 style={taskStatus.discord ? {
                   background: '#10B981',
                   borderColor: '#10B981',
@@ -869,7 +869,7 @@ const CombinedPage = () => {
                 type={taskStatus.telegram ? "default" : "primary"}
                 size="small"
                 disabled={!isConnected || taskStatus.telegram}
-                onClick={() => handleTaskComplete('telegram', 'https://t.me/verichain', t.joinTelegram, 75)}
+                onClick={() => handleTaskComplete('telegram', 'https://t.me/VeriCred', t.joinTelegram, 75)}
                 style={taskStatus.telegram ? {
                   background: '#10B981',
                   borderColor: '#10B981',
@@ -956,7 +956,7 @@ const CombinedPage = () => {
                 type={taskStatus.retweet ? "default" : "text"}
                 size="small"
                 disabled={!isConnected || taskStatus.retweet}
-                onClick={() => handleTaskComplete('retweet', 'https://twitter.com/VeriCred', t.retweetTwitter, 30)}
+                onClick={() => handleTaskComplete('retweet', 'https://x.com/VeriCred/status/1950093809896902845', t.retweetTwitter, 30)}
                 style={{
                   fontSize: '0.75rem',
                   height: '28px',
@@ -995,7 +995,7 @@ const CombinedPage = () => {
                 type={taskStatus.like ? "default" : "text"}
                 size="small"
                 disabled={!isConnected || taskStatus.like}
-                onClick={() => handleTaskComplete('like', 'https://twitter.com/VeriCred', t.likeTwitter, 20)}
+                onClick={() => handleTaskComplete('like', 'https://x.com/VeriCred/status/1950093809896902845', t.likeTwitter, 20)}
                 style={{
                   fontSize: '0.75rem',
                   height: '28px',
@@ -1033,7 +1033,7 @@ const CombinedPage = () => {
                 type={taskStatus.reply ? "default" : "text"}
                 size="small"
                 disabled={!isConnected || taskStatus.reply}
-                onClick={() => handleTaskComplete('reply', 'https://twitter.com/VeriCred', t.replyTwitter, 40)}
+                onClick={() => handleTaskComplete('reply', 'https://x.com/VeriCred/status/1950093809896902845', t.replyTwitter, 40)}
                 style={{
                   fontSize: '0.75rem',
                   height: '28px',
