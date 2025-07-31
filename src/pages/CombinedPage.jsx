@@ -1354,6 +1354,7 @@ const CombinedPage = () => {
             <Button 
               size="large"
               icon={<TwitterOutlined />}
+              onClick={() => window.open('https://x.com/VeriCred', '_blank')}
               style={{
                 height: '56px',
                 padding: '0 32px',
@@ -1370,6 +1371,7 @@ const CombinedPage = () => {
             <Button 
               size="large"
               icon={<MessageOutlined />}
+              onClick={() => window.open('https://discord.gg/uZAg6Sg39e', '_blank')}
               style={{
                 height: '56px',
                 padding: '0 32px',
@@ -1386,6 +1388,7 @@ const CombinedPage = () => {
             <Button 
               size="large"
               icon={<SendOutlined />}
+              onClick={() => window.open('https://t.me/VeriCred', '_blank')}
               style={{
                 height: '56px',
                 padding: '0 32px',
@@ -1402,6 +1405,7 @@ const CombinedPage = () => {
             <Button 
               size="large"
               icon={<FileTextOutlined />}
+              onClick={() => window.open('https://medium.com/@VeriCred24', '_blank')}
               style={{
                 height: '56px',
                 padding: '0 32px',
