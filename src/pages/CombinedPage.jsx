@@ -48,7 +48,18 @@ const CombinedPage = () => {
   const location = useLocation();
   const [referralInput, setReferralInput] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const { language } = useLanguage(); // 默认简体中文
+
+  // 监听窗口大小变化
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
 
   // 多语言文本
@@ -529,7 +540,7 @@ const CombinedPage = () => {
           </Paragraph>
           
           {!isConnected ? (
-            <Space size="large" wrap>
+            <Space size="large" wrap direction={isMobile ? 'vertical' : 'horizontal'} style={{ width: isMobile ? '100%' : 'auto', justifyContent: 'center' }}>
               <Button 
                 type="primary" 
                 size="large"
@@ -540,7 +551,9 @@ const CombinedPage = () => {
                   height: '56px',
                   padding: '0 32px',
                   fontSize: '1rem',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  width: isMobile ? '100%' : 'auto',
+                  maxWidth: isMobile ? '300px' : 'none'
                 }}
               >
                 {t.connectWallet}
@@ -557,7 +570,9 @@ const CombinedPage = () => {
                   fontWeight: 600,
                   background: 'transparent',
                   border: '2px solid #38BDF8',
-                  color: '#38BDF8'
+                  color: '#38BDF8',
+                  width: isMobile ? '100%' : 'auto',
+                  maxWidth: isMobile ? '300px' : 'none'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.background = '#38BDF8';
